@@ -22,6 +22,38 @@ locals {
       description : "Test infrastructure for Google Github Actions.",
       templated : false
     },
+    {
+      name : "deploy-cloudrun",
+      description : "This action deploys your container image to Cloud Run.",
+      templated : false
+    },
+    {
+      name : "deploy-cloud-functions",
+      description : "This action deploys your function source code to Cloud Functions.",
+      templated : false,
+      secrets: data.terraform_remote_state.deploy-cf-infra.outputs.secrets
+    },
+    {
+      name : "get-gke-credentials",
+      description : "This action configures authentication to a GKE cluster.",
+      templated : false,
+      secrets: data.terraform_remote_state.get-gke-cred-test-infra.outputs.secrets
+    },
+    {
+      name : "get-secretmanager-secrets",
+      description : "This action fetches secrets from Secret Manager and makes them available to later build steps via outputs.",
+      templated : false
+    },
+    {
+      name : "upload-cloud-storage",
+      description : "This action uploads files/folders to a Google Cloud Storage (GCS) bucket.",
+      templated : false
+    },
+    {
+      name : "deploy-appengine",
+      description : "This action deploys your source code to App Engine.",
+      templated : false
+    },
   ]
 }
 
