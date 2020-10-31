@@ -18,6 +18,3 @@ provider "google" {
   version = "~> 3.39.0"
   project = var.gcp_project
 }
-
-
-

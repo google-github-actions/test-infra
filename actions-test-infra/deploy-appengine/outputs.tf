@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-variable "gcp_project" {
-  type = string
-}
-# Service account name for running integration tests
-variable "deploy_cf_it_sa_name" {
-  type    = string
-  default = "deploy-cf-it-sa"
+locals {
+  secrets = {
+    "APPENGINE_DEPLOY_SA_EMAIL" : google_service_account.appengine-deploy-sa.email,
+    "APPENGINE_DEPLOY_SA_KEY_B64" : google_service_account_key.key.private_key,
+    "APPENGINE_DEPLOY_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
+    "APPENGINE_DEPLOY_PROJECT_ID" : var.gcp_project,
+  }
 }
 
-# PubSub topic name for testing pubsub triggers
-variable "deploy_cf_test_topic" {
-  type    = string
-  default = "deploy-cf-it-topic"
+# <k,v> pair of secrets for repo
+output "secrets" {
+  value     = local.secrets
+  sensitive = true
 }

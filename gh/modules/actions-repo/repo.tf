@@ -33,11 +33,11 @@ resource "github_repository" "repo" {
 resource "github_branch_protection" "branch_protection" {
   repository_id = github_repository.repo.node_id
   pattern       = "main"
-
-  required_status_checks {
-    strict   = true
-    contexts = ["lint"]
-  }
+  # disabled due to https://github.com/terraform-providers/terraform-provider-github/issues/572
+  # required_status_checks {
+  #   strict   = true
+  #   contexts = var.status_checks
+  # }
   required_pull_request_reviews {
     dismiss_stale_reviews = false
   }

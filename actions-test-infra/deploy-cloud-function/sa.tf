@@ -45,6 +45,7 @@ resource "google_project_iam_member" "deploy-cf-admin" {
   member = "serviceAccount:${google_service_account.deploy-cf-it-sa.email}"
 }
 
+# Assign the IAM Service Account User role on the CF runtime service account:
 resource "google_service_account_iam_member" "cf-default-sa" {
   service_account_id = "projects/${var.gcp_project}/serviceAccounts/${var.gcp_project}@appspot.gserviceaccount.com"
   role               = "roles/iam.serviceAccountUser"

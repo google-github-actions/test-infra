@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+locals {
+  secrets = {
+    "UPLOAD_CLOUD_STORAGE_GCP_SA_EMAIL" : google_service_account.upload-cloud-storage-sa.email,
+    "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_B64" : google_service_account_key.key.private_key,
+    "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
+    "UPLOAD_CLOUD_STORAGE_TEST_BUCKET" : google_storage_bucket.test-bucket.name
+  }
+}
+
+# <k,v> pair of secrets for repo
+output "secrets" {
+  value     = local.secrets
+  sensitive = true
 }

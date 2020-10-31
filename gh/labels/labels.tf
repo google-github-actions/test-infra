@@ -76,7 +76,7 @@ locals {
     {
       name : "refactor",
       color : "004445",
-      description : "Updates for readability, code cleanliness, DRYness, etc. Only needs Terraform exp."
+      description : "Updates for readability, code cleanliness, DRYness, etc."
     },
     {
       name : "blocked",
@@ -122,7 +122,7 @@ locals {
         for label in local.labels :
         {
           # repo is of form org/repo_name, we require just repo_name
-          "repo" : split("/",repo)[1],
+          "repo" : split("/", repo)[1],
           "name" : label.name,
           "color" : label.color,
           "description" : label.description

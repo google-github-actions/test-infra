@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-locals {
-  secrets = {
-    "DEPLOY_CF_SA_EMAIL" : google_service_account.deploy-cf-it-sa.email,
-    "DEPLOY_CF_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
-    "DEPLOY_CF_SA_KEY_B64" : google_service_account_key.key.private_key,
-    "DEPLOY_CF_EVENT_PUBSUB_TOPIC" : google_pubsub_topic.test-topic.id
-  }
+variable "gcp_project" {
+  type = string
 }
 
-# <k,v> pair of secrets for repo
-output "secrets" {
-  value = local.secrets
-  sensitive = true
+# Service account name for running integration tests
+variable "upload_cloud_storage_it_sa_name" {
+  type    = string
+  default = "upload-gcs-it-infra-sa"
 }

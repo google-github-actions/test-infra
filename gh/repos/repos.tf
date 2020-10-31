@@ -25,34 +25,38 @@ locals {
     {
       name : "deploy-cloudrun",
       description : "This action deploys your container image to Cloud Run.",
-      templated : false
+      templated : false,
+      secrets : data.terraform_remote_state.deploy-cloudrun-infra.outputs.secrets
     },
     {
       name : "deploy-cloud-functions",
       description : "This action deploys your function source code to Cloud Functions.",
       templated : false,
-      secrets: data.terraform_remote_state.deploy-cf-infra.outputs.secrets
+      secrets : data.terraform_remote_state.deploy-cf-infra.outputs.secrets
     },
     {
       name : "get-gke-credentials",
       description : "This action configures authentication to a GKE cluster.",
       templated : false,
-      secrets: data.terraform_remote_state.get-gke-cred-test-infra.outputs.secrets
+      secrets : data.terraform_remote_state.get-gke-cred-test-infra.outputs.secrets
     },
     {
       name : "get-secretmanager-secrets",
       description : "This action fetches secrets from Secret Manager and makes them available to later build steps via outputs.",
-      templated : false
+      templated : false,
+      secrets : data.terraform_remote_state.get-secretmanager-secrets-infra.outputs.secrets
     },
     {
       name : "upload-cloud-storage",
       description : "This action uploads files/folders to a Google Cloud Storage (GCS) bucket.",
-      templated : false
+      templated : false,
+      secrets : data.terraform_remote_state.upload-cloud-storage-infra.outputs.secrets
     },
     {
       name : "deploy-appengine",
       description : "This action deploys your source code to App Engine.",
-      templated : false
+      templated : false,
+      secrets : data.terraform_remote_state.deploy-appengine-infra.outputs.secrets
     },
   ]
 }
@@ -65,11 +69,14 @@ module "repos" {
     templated : can(repo.templated) ? repo.templated : true
     # create secrets if set
     secrets : can(repo.secrets) ? repo.secrets : {}
+    # create status_checks if set
+    status_checks : can(repo.status_checks) ? repo.status_checks : []
   } }
-  gh_org      = local.gh_org
-  repo_name   = each.key
-  description = each.value.description
-  secrets     = each.value.secrets
+  gh_org        = local.gh_org
+  repo_name     = each.key
+  description   = each.value.description
+  secrets       = each.value.secrets
+  status_checks = each.value.status_checks
   # if templated repo use google-github-actions-template
   template_repo_name = each.value.templated ? "google-github-actions-template" : ""
 }

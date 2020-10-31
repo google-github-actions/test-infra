@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+variable "gcp_project" {
+  type = string
+}
+# Service account name for running integration tests
+variable "deploy_cf_it_sa_name" {
+  type    = string
+  default = "deploy-cf-it-sa"
+}
+
+# PubSub topic name for testing pubsub triggers
+variable "deploy_cf_test_topic" {
+  type    = string
+  default = "deploy-cf-it-topic"
 }

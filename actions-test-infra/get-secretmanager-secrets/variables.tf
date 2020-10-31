@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+variable "gcp_project" {
+  type = string
+}
+
+variable "get_secretmanager_secrets_it_sa_name" {
+  type    = string
+  default = "get-sm-secrets-infra-sa"
 }

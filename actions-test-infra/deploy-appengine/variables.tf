@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+variable "gcp_project" {
+  type = string
+}
+
+variable "gcp_region" {
+  type    = string
+  default = "us-central"
+}
+# Service account name for running integration tests
+variable "appengine_deploy_it_sa_name" {
+  type    = string
+  default = "deploy-appengine-infra-sa"
 }

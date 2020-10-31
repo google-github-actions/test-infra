@@ -16,18 +16,16 @@
 
 locals {
   secrets = {
-    "GET_GKE_CRED_SA_EMAIL" : google_service_account.get-gke-cred-it-sa.email,
-    "GET_GKE_CRED_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
-    "GET_GKE_CRED_SA_KEY_B64" : google_service_account_key.key.private_key,
-    "GET_GKE_CRED_CLUSTER_NAME" : module.gke.name,
-    "GET_GKE_CRED_CLUSTER_LOCATION" : module.gke.location,
-    "GET_GKE_CRED_PROJECT" : var.gcp_project
+    "GET_SECRETMANAGER_SECRETS_SECRET_REF" : google_secret_manager_secret.secret.id,
+    "GET_SECRETMANAGER_SECRETS_SECRET_VERSION_REF" : google_secret_manager_secret_version.version.id,
+    "GET_SECRETMANAGER_SECRETS_SA_EMAIL" : google_service_account.get-secretmanager-secrets-sa.email,
+    "GET_SECRETMANAGER_SECRETS_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
+    "GET_SECRETMANAGER_SECRETS_SA_KEY_B64" : google_service_account_key.key.private_key,
   }
 }
 
 # <k,v> pair of secrets for repo
 output "secrets" {
-  value      = local.secrets
-  sensitive  = true
-  depends_on = [module.gke.endpoint]
+  value     = local.secrets
+  sensitive = true
 }

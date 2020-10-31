@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+provider "google" {
+  version = "~> 3.39.0"
+  project = var.gcp_project
+}
+
+provider "google-beta" {
+  version = "~> 3.39.0"
+  project = var.gcp_project
+}
+
+terraform {
+  required_version = ">=0.13.4, <0.14"
 }

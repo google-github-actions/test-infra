@@ -52,3 +52,8 @@ variable "allow_google_bot" {
   description = "Allows bot to auto build and create releases"
   default     = true
 }
+
+variable "status_checks" {
+  type        = list(string)
+  description = "List of status checks required."
+}

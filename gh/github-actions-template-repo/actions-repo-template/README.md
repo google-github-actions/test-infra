@@ -1,5 +1,5 @@
 <!--
-Copyright 2019 Google LLC
+Copyright 2020 Google LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum rho
 ## Prerequisites
 
 -   This action requires Google Cloud credentials that are authorized to access
-    the secrets being requested. See the Authorization section below for more
+    the resources being requested. See the Authorization section below for more
     information.
 
 
@@ -30,7 +30,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum rho
 ```yaml
 steps:
 - id: foo
-  uses: verb-resource@main
+  uses: google-github-actions/verb-resource@main
 
 ```
 
@@ -49,14 +49,15 @@ Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac tu
 There are a few ways to authenticate this action. The caller must have
 permissions to access the secrets being requested.
 
-### Via the setup-gcloud action
+### Via the `setup-gcloud` action
 
 You can provide credentials using the [setup-gcloud][setup-gcloud] action:
 
 ```yaml
-- uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
+- uses: google-github-actions/setup-gcloud@main
   with:
     export_default_credentials: true
+    service_account_key: ${{ secrets.GCP_SA_KEY }}
 ```
 
 The advantage of this approach is that it authenticates all future actions. A
@@ -71,12 +72,9 @@ Secret][gh-secret] that contains the JSON content, then import it into the
 action:
 
 ```yaml
-- id: secrets
-  uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@main
+- uses: google-github-actions/verb-resource@main
   with:
-    credentials: ${{ secrets.gcp_credentials }}
-    secrets: |-
-      # ...
+    credentials: ${{ secrets.GCP_SA_KEY }}
 ```
 
 ### Via Application Default Credentials
@@ -88,7 +86,7 @@ only works using a custom runner hosted on GCP.**
 
 ```yaml
 - id: secrets
-  uses: GoogleCloudPlatform/github-actions/get-secretmanager-secrets@main
+  uses: google-github-actions/verb-resource@main
 ```
 
 The action will automatically detect and use the Application Default

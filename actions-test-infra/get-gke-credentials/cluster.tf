@@ -77,7 +77,7 @@ resource "google_service_account" "get-gke-cred-it-sa" {
   display_name = var.get_gke_cred_it_sa_name
 }
 
-# Assign the CF Admin IAM role to the service account.
+# Assign the Container Admin IAM role to the service account.
 resource "google_project_iam_member" "get-gke-cred-admin" {
   role   = "roles/container.admin"
   member = "serviceAccount:${google_service_account.get-gke-cred-it-sa.email}"

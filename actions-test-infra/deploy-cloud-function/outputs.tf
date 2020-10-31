@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+locals {
+  secrets = {
+    "DEPLOY_CF_SA_EMAIL" : google_service_account.deploy-cf-it-sa.email,
+    "DEPLOY_CF_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
+    "DEPLOY_CF_SA_KEY_B64" : google_service_account_key.key.private_key,
+    "DEPLOY_CF_EVENT_PUBSUB_TOPIC" : google_pubsub_topic.test-topic.id
+  }
+}
+
+# <k,v> pair of secrets for repo
+output "secrets" {
+  value     = local.secrets
+  sensitive = true
 }
