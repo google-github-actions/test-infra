@@ -19,7 +19,8 @@ locals {
     "DEPLOY_CF_SA_EMAIL" : google_service_account.deploy-cf-it-sa.email,
     "DEPLOY_CF_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "DEPLOY_CF_SA_KEY_B64" : google_service_account_key.key.private_key,
-    "DEPLOY_CF_EVENT_PUBSUB_TOPIC" : google_pubsub_topic.test-topic.id
+    "DEPLOY_CF_EVENT_PUBSUB_TOPIC" : google_pubsub_topic.test-topic.id,
+    "DEPLOY_CF_PROJECT_ID": var.gcp_project
   }
 }
 
