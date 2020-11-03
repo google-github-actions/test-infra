@@ -19,6 +19,10 @@ provider "github" {
   organization = local.gh_org
 }
 
+provider "google" {
+  version = "~> 3.39.0"
+}
+
 terraform {
   required_version = ">=0.13.4, <0.14"
 }

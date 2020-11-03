@@ -82,6 +82,7 @@ module "repos" {
   description   = each.value.description
   secrets       = each.value.secrets
   status_checks = each.value.status_checks
+  gha_bot_token = data.google_secret_manager_secret_version.bot.secret_data
   # if templated repo use google-github-actions-template
   template_repo_name = each.value.templated ? "google-github-actions-template" : ""
 }

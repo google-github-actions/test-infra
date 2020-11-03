@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-resource "github_actions_secret" "infra_secret_gcr_project" {
-  for_each        = var.secrets
-  repository      = github_repository.repo.name
-  secret_name     = each.key
-  plaintext_value = each.value
+variable "gcp_tf_project" {
+  type = string
 }
 
-resource "github_actions_secret" "actions_bot" {
-  count           = var.allow_google_bot ? 1 : 0
-  repository      = github_repository.repo.name
-  secret_name     = "ACTIONS_BOT_TOKEN"
-  plaintext_value = var.gha_bot_token
+data "google_secret_manager_secret_version" "bot" {
+  secret  = "gha-bot-triage-pat"
+  project = var.gcp_tf_project
 }

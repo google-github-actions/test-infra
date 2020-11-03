@@ -53,6 +53,12 @@ variable "allow_google_bot" {
   default     = true
 }
 
+variable "gha_bot_token" {
+  type        = string
+  description = "Bot PAT for triage"
+  default     = ""
+}
+
 variable "status_checks" {
   type        = list(string)
   description = "List of status checks required."
