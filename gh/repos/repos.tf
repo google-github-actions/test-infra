@@ -58,6 +58,11 @@ locals {
       templated : false,
       secrets : data.terraform_remote_state.deploy-appengine-infra.outputs.secrets
     },
+    {
+      name : "release-please-action",
+      description : "automated releases based on conventional commits",
+      templated : false
+    },
   ]
 }
 
