@@ -112,6 +112,16 @@ locals {
       name : "waiting-response",
       color : "5319e7",
       description : "Waiting for issue author to respond."
+    },
+    {
+      name : "cla: yes",
+      color : "ff0040",
+      description : "User has signed the Contributor License Agreement"
+    },
+    {
+      name : "cla: no",
+      color : "98fb00",
+      description : "User has not signed the Contributor License Agreement"
     }
   ]
   repos = data.terraform_remote_state.repos.outputs.repos
