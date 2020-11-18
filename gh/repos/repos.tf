@@ -63,6 +63,11 @@ locals {
       description : "automated releases based on conventional commits",
       templated : false
     },
+    {
+      name : ".github",
+      description : "Default files for google-github-actions",
+      templated : false
+    },
   ]
 }
 
