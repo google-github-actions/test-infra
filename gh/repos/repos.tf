@@ -62,6 +62,12 @@ locals {
       name : "release-please-action",
       description : "automated releases based on conventional commits",
       templated : false
+      status_checks : ["cla/google", "test (12)"]
+    },
+    {
+      name : ".github",
+      description : "Default files for google-github-actions",
+      templated : false
     },
   ]
 }

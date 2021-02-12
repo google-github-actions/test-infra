@@ -115,12 +115,12 @@ locals {
     },
     {
       name : "cla: yes",
-      color : "ff0040",
+      color : "98fb00",
       description : "User has signed the Contributor License Agreement"
     },
     {
       name : "cla: no",
-      color : "98fb00",
+      color : "ff0040",
       description : "User has not signed the Contributor License Agreement"
     }
   ]
