@@ -15,7 +15,7 @@
  */
 
 provider "github" {
-  version      = "~> 3.1.0"
+  version      = "~> 4.4.0"
   organization = local.gh_org
 }
 

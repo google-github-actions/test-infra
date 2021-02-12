@@ -33,19 +33,19 @@ resource "github_repository" "repo" {
 resource "github_branch_protection" "branch_protection" {
   repository_id = github_repository.repo.node_id
   pattern       = "main"
-  # disabled due to https://github.com/terraform-providers/terraform-provider-github/issues/572
-  # required_status_checks {
-  #   strict   = true
-  #   contexts = var.status_checks
-  # }
+  required_status_checks {
+    strict   = true
+    contexts = var.status_checks
+  }
   required_pull_request_reviews {
     dismiss_stale_reviews = false
   }
 }
 
 resource "github_repository_collaborator" "google_bot" {
-  count      = var.allow_google_bot ? 1 : 0
-  repository = github_repository.repo.name
-  username   = "google-github-actions-bot"
-  permission = "triage"
+  count                       = var.allow_google_bot ? 1 : 0
+  repository                  = github_repository.repo.name
+  username                    = "google-github-actions-bot"
+  permission                  = "triage"
+  permission_diff_suppression = true
 }
