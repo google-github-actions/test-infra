@@ -61,12 +61,19 @@ locals {
     {
       name : "release-please-action",
       description : "automated releases based on conventional commits",
-      templated : false
+      templated : false,
+      vulnerability_alerts : false,
+      require_code_owner_reviews : false,
       status_checks : ["cla/google", "test (12)"]
     },
     {
       name : ".github",
       description : "Default files for google-github-actions",
+      templated : false
+    },
+    {
+      name : "actions-docs",
+      description : "Generate documentation for GitHub Actions",
       templated : false
     },
   ]
@@ -82,13 +89,19 @@ module "repos" {
     secrets : can(repo.secrets) ? repo.secrets : {}
     # create status_checks if set
     status_checks : can(repo.status_checks) ? repo.status_checks : []
+    # set dependabot alerts, default to true
+    vulnerability_alerts : can(repo.vulnerability_alerts) ? repo.vulnerability_alerts : true
+    # require codeowner reviews, default to true
+    require_code_owner_reviews : can(repo.require_code_owner_reviews) ? repo.require_code_owner_reviews : true
   } }
-  gh_org        = local.gh_org
-  repo_name     = each.key
-  description   = each.value.description
-  secrets       = each.value.secrets
-  status_checks = each.value.status_checks
-  gha_bot_token = data.google_secret_manager_secret_version.bot.secret_data
+  gh_org                     = local.gh_org
+  repo_name                  = each.key
+  description                = each.value.description
+  secrets                    = each.value.secrets
+  status_checks              = each.value.status_checks
+  vulnerability_alerts       = each.value.vulnerability_alerts
+  require_code_owner_reviews = each.value.require_code_owner_reviews
+  gha_bot_token              = data.google_secret_manager_secret_version.bot.secret_data
   # if templated repo use google-github-actions-template
   template_repo_name = each.value.templated ? "google-github-actions-template" : ""
 }
