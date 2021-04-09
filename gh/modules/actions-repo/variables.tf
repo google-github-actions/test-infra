@@ -63,3 +63,15 @@ variable "status_checks" {
   type        = list(string)
   description = "List of status checks required."
 }
+
+variable "vulnerability_alerts" {
+  type        = bool
+  default     = true
+  description = "Flag to enable Dependabot alerts"
+}
+
+variable "require_code_owner_reviews" {
+  type        = bool
+  default     = true
+  description = "Flag to enable code owner reviews before merge"
+}

@@ -15,12 +15,13 @@
  */
 
 resource "github_repository" "repo" {
-  name               = var.repo_name
-  description        = var.description
-  allow_merge_commit = false
-  allow_rebase_merge = false
-  is_template        = false
-  has_issues         = true
+  name                 = var.repo_name
+  description          = var.description
+  allow_merge_commit   = false
+  allow_rebase_merge   = false
+  is_template          = false
+  has_issues           = true
+  vulnerability_alerts = var.vulnerability_alerts
   dynamic "template" {
     for_each = var.template_repo_name == "" ? [] : [var.template_repo_name]
     content {
@@ -38,7 +39,8 @@ resource "github_branch_protection" "branch_protection" {
     contexts = var.status_checks
   }
   required_pull_request_reviews {
-    dismiss_stale_reviews = false
+    dismiss_stale_reviews      = false
+    require_code_owner_reviews = var.require_code_owner_reviews
   }
 }
 
