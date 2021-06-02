@@ -85,7 +85,8 @@ locals {
     {
       name : "setup-cloud-sdk",
       description : "NPM package for interacting with Google Cloud SDK",
-      templated : false
+      templated : false,
+      secrets : data.terraform_remote_state.setup-sdk-infra.outputs.secrets
     },
   ]
 }

@@ -69,3 +69,12 @@ data "terraform_remote_state" "deploy-workflow-infra" {
     prefix = "state/deploy-workflow-test-infra"
   }
 }
+
+data "terraform_remote_state" "setup-sdk-infra" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/setup-sdk-test-infra"
+  }
+}
+
