@@ -59,6 +59,12 @@ locals {
       secrets : data.terraform_remote_state.deploy-appengine-infra.outputs.secrets
     },
     {
+      name : "deploy-workflow",
+      description : "This action deploys your Google Cloud Workflow",
+      templated : false,
+      secrets : data.terraform_remote_state.deploy-workflow-infra.outputs.secrets
+    },
+    {
       name : "release-please-action",
       description : "automated releases based on conventional commits",
       templated : false,
@@ -74,6 +80,11 @@ locals {
     {
       name : "actions-docs",
       description : "Generate documentation for GitHub Actions",
+      templated : false
+    },
+    {
+      name : "setup-cloud-sdk",
+      description : "NPM package for interacting with Google Cloud SDK",
       templated : false
     },
   ]

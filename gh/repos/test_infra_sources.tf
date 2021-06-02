@@ -61,3 +61,11 @@ data "terraform_remote_state" "upload-cloud-storage-infra" {
     prefix = "state/upload-cloud-storage-infra"
   }
 }
+
+data "terraform_remote_state" "deploy-workflow-infra" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/deploy-workflow-test-infra"
+  }
+}
