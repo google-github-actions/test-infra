@@ -70,7 +70,8 @@ locals {
       templated : false,
       vulnerability_alerts : false,
       require_code_owner_reviews : false,
-      status_checks : ["cla/google", "test (12)"]
+      status_checks : ["cla/google", "test (12)"],
+      enforce_admins : true
     },
     {
       name : ".github",
@@ -105,6 +106,8 @@ module "repos" {
     vulnerability_alerts : can(repo.vulnerability_alerts) ? repo.vulnerability_alerts : true
     # require codeowner reviews, default to true
     require_code_owner_reviews : can(repo.require_code_owner_reviews) ? repo.require_code_owner_reviews : true
+    # enfore admins
+    enforce_admins : can(repo.enforce_admins) ? repo.enforce_admins : false
   } }
   gh_org                     = local.gh_org
   repo_name                  = each.key
@@ -113,6 +116,7 @@ module "repos" {
   status_checks              = each.value.status_checks
   vulnerability_alerts       = each.value.vulnerability_alerts
   require_code_owner_reviews = each.value.require_code_owner_reviews
+  enforce_admins             = each.value.enforce_admins
   gha_bot_token              = data.google_secret_manager_secret_version.bot.secret_data
   # if templated repo use google-github-actions-template
   template_repo_name = each.value.templated ? "google-github-actions-template" : ""

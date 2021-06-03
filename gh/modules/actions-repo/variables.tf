@@ -75,3 +75,9 @@ variable "require_code_owner_reviews" {
   default     = true
   description = "Flag to enable code owner reviews before merge"
 }
+
+variable "enforce_admins" {
+  type        = bool
+  default     = false
+  description = "Flag to enforce status checks for repository administrators"
+}
