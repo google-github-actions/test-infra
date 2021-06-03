@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,4 +74,10 @@ variable "require_code_owner_reviews" {
   type        = bool
   default     = true
   description = "Flag to enable code owner reviews before merge"
+}
+
+variable "enforce_admins" {
+  type        = bool
+  default     = false
+  description = "Flag to enforce status checks for repository administrators"
 }

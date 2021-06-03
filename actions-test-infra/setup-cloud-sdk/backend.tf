@@ -14,17 +14,9 @@
  * limitations under the License.
  */
 
-output "seed_tfstate_bucket" {
-  description = "Bucket for storing seed state"
-  value       = google_storage_bucket.state_bucket_seed.name
-}
-
-output "infra_tfstate_bucket" {
-  description = "Bucket for storing infra state"
-  value       = google_storage_bucket.state_bucket_test_infra.name
-}
-
-output "gh_tfstate_bucket" {
-  description = "Bucket for storing GH state"
-  value       = google_storage_bucket.state_bucket_gh.name
+terraform {
+  backend "gcs" {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/setup-sdk-infra"
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ resource "github_repository" "repo" {
 resource "github_branch_protection" "branch_protection" {
   repository_id = github_repository.repo.node_id
   pattern       = "main"
+  enforce_admins = var.enforce_admins
   required_status_checks {
     strict   = true
     contexts = var.status_checks

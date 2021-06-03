@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-output "seed_tfstate_bucket" {
-  description = "Bucket for storing seed state"
-  value       = google_storage_bucket.state_bucket_seed.name
+locals {
+  secrets = {
+    "DEPLOY_WORKFLOW_CRED_SA_EMAIL" : google_service_account.deploy-workflow-cred-it-sa.email,
+    "DEPLOY_WORKFLOW_CRED_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
+    "DEPLOY_WORKFLOW_CRED_SA_KEY_B64" : google_service_account_key.key.private_key,
+  }
 }
 
-output "infra_tfstate_bucket" {
-  description = "Bucket for storing infra state"
-  value       = google_storage_bucket.state_bucket_test_infra.name
-}
-
-output "gh_tfstate_bucket" {
-  description = "Bucket for storing GH state"
-  value       = google_storage_bucket.state_bucket_gh.name
+# <k,v> pair of secrets for repo
+output "secrets" {
+  value     = local.secrets
+  sensitive = true
 }

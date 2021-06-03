@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-output "seed_tfstate_bucket" {
-  description = "Bucket for storing seed state"
-  value       = google_storage_bucket.state_bucket_seed.name
+
+# Create the service account.
+resource "google_service_account" "setup-sdk-cred-it-sa" {
+  project      = var.gcp_project
+  account_id   = var.setup_sdk_cred_it_sa_name
+  display_name = var.setup_sdk_cred_it_sa_name
 }
 
-output "infra_tfstate_bucket" {
-  description = "Bucket for storing infra state"
-  value       = google_storage_bucket.state_bucket_test_infra.name
-}
-
-output "gh_tfstate_bucket" {
-  description = "Bucket for storing GH state"
-  value       = google_storage_bucket.state_bucket_gh.name
+# Create service account key.
+resource "google_service_account_key" "key" {
+  service_account_id = google_service_account.setup-sdk-cred-it-sa.name
 }

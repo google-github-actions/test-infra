@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,3 +61,20 @@ data "terraform_remote_state" "upload-cloud-storage-infra" {
     prefix = "state/upload-cloud-storage-infra"
   }
 }
+
+data "terraform_remote_state" "deploy-workflow-infra" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/deploy-workflow-infra"
+  }
+}
+
+data "terraform_remote_state" "setup-sdk-infra" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/setup-sdk-infra"
+  }
+}
+
