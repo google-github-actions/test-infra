@@ -43,6 +43,8 @@ resource "google_project_iam_custom_role" "gcs-project-role" {
     "storage.objects.delete",
     "storage.buckets.get",
     "storage.buckets.list",
+    "storage.buckets.create",
+    "storage.buckets.delete",
   ]
 }
 
