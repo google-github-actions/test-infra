@@ -122,6 +122,11 @@ locals {
       name : "cla: no",
       color : "ff0040",
       description : "User has not signed the Contributor License Agreement"
+    },
+    {
+      name : "automerge",
+      color : "C2E0C6",
+      description : "Merge the pull request once unit tests and other checks pass."
     }
   ]
   repos = data.terraform_remote_state.repos.outputs.repos
