@@ -19,7 +19,8 @@ locals {
     "UPLOAD_CLOUD_STORAGE_GCP_SA_EMAIL" : google_service_account.upload-cloud-storage-sa.email,
     "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_B64" : google_service_account_key.key.private_key,
     "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
-    "UPLOAD_CLOUD_STORAGE_TEST_BUCKET" : google_storage_bucket.test-bucket.name
+    "UPLOAD_CLOUD_STORAGE_TEST_BUCKET" : google_storage_bucket.test-bucket.name,
+    "UPLOAD_CLOUD_STORAGE_PROJECT" : google_project_service.storage.project
   }
 }
 
