@@ -70,8 +70,7 @@ locals {
       templated : false,
       vulnerability_alerts : false,
       require_code_owner_reviews : false,
-      status_checks : ["cla/google", "test (12)"],
-      enforce_admins : true
+      status_checks : ["cla/google", "test (12)"]
     },
     {
       name : ".github",
@@ -106,7 +105,7 @@ module "repos" {
     # create secrets if set
     secrets : can(repo.secrets) ? repo.secrets : {}
     # create status_checks if set
-    status_checks : can(repo.status_checks) ? repo.status_checks : []
+    status_checks : can(repo.status_checks) ? repo.status_checks : ["cla/google"]
     # set dependabot alerts, default to true
     vulnerability_alerts : can(repo.vulnerability_alerts) ? repo.vulnerability_alerts : true
     # require codeowner reviews, default to true
