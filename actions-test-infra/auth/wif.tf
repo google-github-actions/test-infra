@@ -36,7 +36,7 @@ module "oidc" {
   sa_mapping = {
     (google_service_account.oidc-auth-test-sa.account_id) = {
       sa_name   = google_service_account.oidc-auth-test-sa.name
-      attribute = "attribute.repository/sethvargo/oidc-auth-google-cloud"
+      attribute = "attribute.repository/google-github-actions/auth"
     }
   }
 }

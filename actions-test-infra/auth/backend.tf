@@ -17,6 +17,6 @@
 terraform {
   backend "gcs" {
     bucket = "actions-infra-tfstate-b4fa"
-    prefix = "state/oidc-auth-google-cloud"
+    prefix = "state/auth"
   }
 }
