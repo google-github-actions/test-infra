@@ -22,6 +22,7 @@ module "project-services" {
   activate_apis = [
     "sts.googleapis.com",
     "iamcredentials.googleapis.com",
+    "secretmanager.googleapis.com",
   ]
 }
 
