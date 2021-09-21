@@ -21,6 +21,7 @@ module "project-services" {
   project_id = var.gcp_project
   activate_apis = [
     "sts.googleapis.com",
+    "iamcredentials.googleapis.com",
   ]
 }
 
