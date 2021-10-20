@@ -127,6 +127,16 @@ locals {
       name : "automerge",
       color : "C2E0C6",
       description : "Merge the pull request once unit tests and other checks pass."
+    },
+    {
+      name : "autorelease: pending",
+      color : "e8e8e8",
+      description : ""
+    },
+    {
+      name : "autorelease: tagged",
+      color : "e8e8e8",
+      description : ""
     }
   ]
   repos = data.terraform_remote_state.repos.outputs.repos
