@@ -81,3 +81,21 @@ variable "enforce_admins" {
   default     = false
   description = "Flag to enforce status checks for repository administrators"
 }
+
+variable "delete_branch_on_merge" {
+  type        = bool
+  default     = false
+  description = "Automatically delete head branch after a pull request is merged"
+}
+
+variable "topics" {
+  type        = list(string)
+  default     = null
+  description = "The list of topics of the repository."
+}
+
+variable "has_downloads" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable the (deprecated) downloads features on the repository."
+}

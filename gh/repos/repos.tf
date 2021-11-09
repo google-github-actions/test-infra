@@ -93,6 +93,15 @@ locals {
       description : "This action allows you to ssh into a Compute Engine instance.",
       templated : false,
     },
+    {
+      name : "auth",
+      description : "GitHub Action for authenticating to Google Cloud with GitHub Actions OIDC tokens and Workload Identity Federation.",
+      templated : false,
+      topics : ["github-actions", "google-cloud", "identity", "security"],
+      delete_branch_on_merge : true,
+      has_downloads : true,
+      secrets : data.terraform_remote_state.auth.outputs.secrets
+    },
   ]
 }
 
@@ -112,6 +121,12 @@ module "repos" {
     require_code_owner_reviews : can(repo.require_code_owner_reviews) ? repo.require_code_owner_reviews : true
     # enfore admins
     enforce_admins : can(repo.enforce_admins) ? repo.enforce_admins : false
+    # auto delete branch after merging PR
+    delete_branch_on_merge : can(repo.delete_branch_on_merge) ? repo.delete_branch_on_merge : false
+    # topics
+    topics : can(repo.topics) ? repo.topics : null
+    # has_downloads
+    has_downloads : can(repo.has_downloads) ? repo.has_downloads : false
   } }
   gh_org                     = local.gh_org
   repo_name                  = each.key
@@ -122,6 +137,9 @@ module "repos" {
   require_code_owner_reviews = each.value.require_code_owner_reviews
   enforce_admins             = each.value.enforce_admins
   gha_bot_token              = data.google_secret_manager_secret_version.bot.secret_data
+  delete_branch_on_merge     = each.value.delete_branch_on_merge
+  topics                     = each.value.topics
+  has_downloads              = each.value.has_downloads
   # if templated repo use google-github-actions-template
   template_repo_name = each.value.templated ? "google-github-actions-template" : ""
 }

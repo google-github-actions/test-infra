@@ -21,6 +21,9 @@ resource "github_repository" "repo" {
   allow_rebase_merge   = false
   is_template          = false
   has_issues           = true
+delete_branch_on_merge = var.delete_branch_on_merge
+topics = var.topics
+has_downloads = var.has_downloads
   vulnerability_alerts = var.vulnerability_alerts
   dynamic "template" {
     for_each = var.template_repo_name == "" ? [] : [var.template_repo_name]

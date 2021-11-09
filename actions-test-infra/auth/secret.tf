@@ -41,3 +41,10 @@ resource "google_secret_manager_secret_iam_member" "access-secret" {
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.oidc-auth-test-sa.email}"
 }
+
+resource "google_secret_manager_secret_iam_member" "access-secret-key" {
+  provider  = google-beta
+  secret_id = google_secret_manager_secret.secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.auth-key.email}"
+}
