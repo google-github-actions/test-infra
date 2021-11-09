@@ -97,5 +97,5 @@ variable "topics" {
 variable "has_downloads" {
   type        = bool
   default     = false
-  description = " Set to true to enable the (deprecated) downloads features on the repository."
+  description = "Set to true to enable the (deprecated) downloads features on the repository."
 }
