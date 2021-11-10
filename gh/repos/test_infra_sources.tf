@@ -85,3 +85,11 @@ data "terraform_remote_state" "auth" {
     prefix = "state/auth"
   }
 }
+
+data "terraform_remote_state" "ssh-compute" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/ssh-compute"
+  }
+}

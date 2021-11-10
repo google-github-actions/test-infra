@@ -92,6 +92,7 @@ locals {
       name : "ssh-compute",
       description : "This action allows you to ssh into a Compute Engine instance.",
       templated : false,
+      secrets : data.terraform_remote_state.ssh-compute.outputs.secrets
     },
     {
       name : "auth",
