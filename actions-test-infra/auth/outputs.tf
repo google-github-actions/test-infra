@@ -19,6 +19,7 @@ locals {
     "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "OIDC_AUTH_SA_EMAIL" : google_service_account.oidc-auth-test-sa.email,
     "OIDC_AUTH_TEST_SECRET_REF" : google_secret_manager_secret.secret.id,
+    "OIDC_AUTH_TEST_SECRET_NAME" : local.secret_name,
     "AUTH_SA_KEY_EMAIL" : google_service_account.auth-key.email,
     "AUTH_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "AUTH_SA_KEY_B64" : google_service_account_key.key.private_key

@@ -15,6 +15,11 @@
  */
 
 # create a test secret resource that the SA has permissions to access
+
+locals {
+  secret_name = "oidc-auth-test-secret"
+}
+
 resource "google_service_account" "oidc-auth-test-sa" {
   provider   = google-beta
   account_id = "oidc-auth-infra-sa"
@@ -23,7 +28,7 @@ resource "google_service_account" "oidc-auth-test-sa" {
 resource "google_secret_manager_secret" "secret" {
   provider  = google-beta
   project   = module.project-services.project_id
-  secret_id = "oidc-auth-test-secret"
+  secret_id = local.secret_name
   replication {
     automatic = true
   }
