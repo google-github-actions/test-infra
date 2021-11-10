@@ -57,7 +57,7 @@ module "ssh-iap-vm" {
   name          = "ssh-iap-vm"
   zone          = "us-central1-a"
   image_project = "debian-cloud"
-  image_family  = "debian-9"
+  image_family  = "debian-10"
   machine_type  = "f1-micro"
   members       = ["serviceAccount:${google_service_account.ssh-sa.email}"]
 }
@@ -71,7 +71,7 @@ resource "google_service_account" "ssh-external-vm-sa" {
 
 # Assign the IAM Service Account User role on the VM SA:
 resource "google_service_account_iam_member" "external-vm-user" {
-  service_account_id = google_service_account.ssh-external-vm-sa.email
+  service_account_id = google_service_account.ssh-external-vm-sa.name
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${google_service_account.ssh-sa.email}"
 }
