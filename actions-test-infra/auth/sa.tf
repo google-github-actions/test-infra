@@ -23,3 +23,11 @@ resource "google_service_account" "auth-key" {
 resource "google_service_account_key" "key" {
   service_account_id = google_service_account.auth-key.name
 }
+
+# allow SA to mint tokens on itself
+# https://github.com/google-github-actions/auth#generating-an-oauth-20-access-token
+resource "google_service_account_iam_member" "sa-self-token" {
+  service_account_id = google_service_account.auth-key.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "serviceAccount:${google_service_account.auth-key.email}"
+}
