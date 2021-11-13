@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.39"
-  project = var.gcp_project
-}
+module "oidc" {
+  source  = "terraform-google-modules/github-actions-runners/google//modules/gh-oidc"
+  version = "~> 2.0"
 
-provider "google-beta" {
-  version = "~> 3.39"
-  project = var.gcp_project
+  project_id  = var.gcp_project
+  pool_id     = "test-gke-pool"
+  provider_id = "test-gke-gh-provider"
+  sa_mapping = {
+    (google_service_account.get-gke-cred-it-sa.account_id) = {
+      sa_name   = google_service_account.get-gke-cred-it-sa.name
+      attribute = "attribute.repository/google-github-actions/get-gke-credentials"
+    }
+  }
 }

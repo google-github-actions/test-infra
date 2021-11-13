@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "GET_GKE_CRED_SA_EMAIL" : google_service_account.get-gke-cred-it-sa.email,
     "GET_GKE_CRED_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "GET_GKE_CRED_SA_KEY_B64" : google_service_account_key.key.private_key,
