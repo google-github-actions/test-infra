@@ -15,6 +15,11 @@
  */
 
 provider "google" {
-  version = "~> 3.35.0"
+  version = "~> 3.39"
+  project = var.gcp_project
+}
+
+provider "google-beta" {
+  version = "~> 3.39"
   project = var.gcp_project
 }

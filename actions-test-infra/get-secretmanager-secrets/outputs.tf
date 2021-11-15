@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "GET_SECRETMANAGER_SECRETS_SECRET_REF" : google_secret_manager_secret.secret.id,
     "GET_SECRETMANAGER_SECRETS_SECRET_VERSION_REF" : google_secret_manager_secret_version.version.id,
     "GET_SECRETMANAGER_SECRETS_SA_EMAIL" : google_service_account.get-secretmanager-secrets-sa.email,

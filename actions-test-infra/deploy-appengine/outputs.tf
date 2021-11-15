@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "APPENGINE_DEPLOY_SA_EMAIL" : google_service_account.appengine-deploy-sa.email,
     "APPENGINE_DEPLOY_SA_KEY_B64" : google_service_account_key.key.private_key,
     "APPENGINE_DEPLOY_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
