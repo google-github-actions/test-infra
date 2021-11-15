@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "UPLOAD_CLOUD_STORAGE_GCP_SA_EMAIL" : google_service_account.upload-cloud-storage-sa.email,
     "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_B64" : google_service_account_key.key.private_key,
     "UPLOAD_CLOUD_STORAGE_GCP_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),

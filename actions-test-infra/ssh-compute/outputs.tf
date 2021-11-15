@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "SSH_COMPUTE_SA_EMAIL" : google_service_account.ssh-sa.email,
     "SSH_COMPUTE_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "SSH_COMPUTE_SA_KEY_B64" : google_service_account_key.key.private_key,

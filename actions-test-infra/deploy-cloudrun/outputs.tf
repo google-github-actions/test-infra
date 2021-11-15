@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "DEPLOY_CLOUDRUN_PROJECT_ID" : var.gcp_project,
     "DEPLOY_CLOUDRUN_SA_EMAIL" : google_service_account.deploy-cloudrun-sa.email,
     "DEPLOY_CLOUDRUN_SA_KEY_B64" : google_service_account_key.key.private_key,

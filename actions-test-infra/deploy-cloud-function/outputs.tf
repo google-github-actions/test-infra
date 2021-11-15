@@ -16,6 +16,7 @@
 
 locals {
   secrets = {
+    "WIF_PROVIDER_NAME" : module.oidc.provider_name,
     "DEPLOY_CF_SA_EMAIL" : google_service_account.deploy-cf-it-sa.email,
     "DEPLOY_CF_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "DEPLOY_CF_SA_KEY_B64" : google_service_account_key.key.private_key,

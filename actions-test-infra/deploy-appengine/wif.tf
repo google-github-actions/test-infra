@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.39"
-  project = var.gcp_project
-}
+module "oidc" {
+  source  = "terraform-google-modules/github-actions-runners/google//modules/gh-oidc"
+  version = "~> 2.0"
 
-provider "google-beta" {
-  version = "~> 3.39"
-  project = var.gcp_project
-}
-
-terraform {
-  required_version = ">=0.13.4, <0.14"
+  project_id  = var.gcp_project
+  pool_id     = "test-ae-pool"
+  provider_id = "test-ae-gh-provider"
+  sa_mapping = {
+    (google_service_account.appengine-deploy-sa.account_id) = {
+      sa_name   = google_service_account.appengine-deploy-sa.name
+      attribute = "attribute.repository/google-github-actions/deploy-appengine"
+    }
+  }
 }
