@@ -51,7 +51,7 @@ resource "google_secret_manager_secret_iam_member" "access-secret" {
   provider  = google-beta
   secret_id = google_secret_manager_secret.secret.id
   role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.get-secretmanager-secrets-sa.email}"
+  member    = "serviceAccount:${var.gcp_project}@appspot.gserviceaccount.com"
 }
 
 resource "google_service_account_key" "key" {
