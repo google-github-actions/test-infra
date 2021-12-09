@@ -68,8 +68,6 @@ locals {
       name : "release-please-action",
       description : "automated releases based on conventional commits",
       templated : false,
-      vulnerability_alerts : false,
-      require_code_owner_reviews : false,
       status_checks : ["cla/google", "test (12)"]
     },
     {
@@ -102,6 +100,16 @@ locals {
       delete_branch_on_merge : true,
       has_downloads : true,
       secrets : data.terraform_remote_state.auth.outputs.secrets
+      status_checks : [
+        "cla/google",
+        "credentials_json (macos-latest)",
+        "credentials_json (ubuntu-latest)",
+        "credentials_json (windows-latest)",
+        "install_and_compile",
+        "workload_identity_federation (macos-latest)",
+        "workload_identity_federation (ubuntu-latest)",
+        "workload_identity_federation (windows-latest)",
+      ]
     },
   ]
 }
@@ -123,7 +131,7 @@ module "repos" {
     # enfore admins
     enforce_admins : can(repo.enforce_admins) ? repo.enforce_admins : false
     # auto delete branch after merging PR
-    delete_branch_on_merge : can(repo.delete_branch_on_merge) ? repo.delete_branch_on_merge : false
+    delete_branch_on_merge : can(repo.delete_branch_on_merge) ? repo.delete_branch_on_merge : true
     # topics
     topics : can(repo.topics) ? repo.topics : null
     # has_downloads
