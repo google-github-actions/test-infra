@@ -24,6 +24,7 @@ module "project-services" {
   activate_apis = [
     "cloudfunctions.googleapis.com",
     "cloudbuild.googleapis.com",
+    "secretmanager.googleapis.com",
   ]
 }
 

@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-# Enable necessary APIs.
-module "project-services" {
-  source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 9.0"
-
-  project_id = var.gcp_project
-
-  activate_apis = [
-    "secretmanager.googleapis.com",
-  ]
-}
-
 resource "google_secret_manager_secret" "secret" {
   provider  = google-beta
   project   = module.project-services.project_id
