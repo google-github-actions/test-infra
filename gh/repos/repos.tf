@@ -69,7 +69,7 @@ locals {
       name : "deploy-workflow",
       description : "This action deploys your Google Cloud Workflow",
       templated : false,
-      topics : concat(local.common_topics, ["gcw", "google-cloud-workflows"]),
+      topics : concat(local.common_topics, ["workflows", "google-cloud-workflows"]),
       secrets : data.terraform_remote_state.deploy-workflow-infra.outputs.secrets
     },
     {
