@@ -15,7 +15,8 @@
  */
 
 locals {
-  gh_org = "google-github-actions"
+  gh_org        = "google-github-actions"
+  common_topics = ["actions", "github-actions", "gcp", "google-cloud", "google-cloud-platform"]
   repos = [
     {
       name : "test-infra",
@@ -26,42 +27,49 @@ locals {
       name : "deploy-cloudrun",
       description : "This action deploys your container image to Cloud Run.",
       templated : false,
+      topics : concat(local.common_topics, ["cloud-run", "google-cloud-run"]),
       secrets : data.terraform_remote_state.deploy-cloudrun-infra.outputs.secrets
     },
     {
       name : "deploy-cloud-functions",
       description : "This action deploys your function source code to Cloud Functions.",
       templated : false,
+      topics : concat(local.common_topics, ["gcf", "google-cloud-functions"]),
       secrets : data.terraform_remote_state.deploy-cf-infra.outputs.secrets
     },
     {
       name : "get-gke-credentials",
       description : "This action configures authentication to a GKE cluster.",
       templated : false,
+      topics : concat(local.common_topics, ["gke", "google-kubernetes-engine", "kubernetes"]),
       secrets : data.terraform_remote_state.get-gke-cred-test-infra.outputs.secrets
     },
     {
       name : "get-secretmanager-secrets",
       description : "This action fetches secrets from Secret Manager and makes them available to later build steps via outputs.",
       templated : false,
+      topics : concat(local.common_topics, ["secrets", "secret-manager", "google-secret-manager"]),
       secrets : data.terraform_remote_state.get-secretmanager-secrets-infra.outputs.secrets
     },
     {
       name : "upload-cloud-storage",
       description : "This action uploads files/folders to a Google Cloud Storage (GCS) bucket.",
       templated : false,
+      topics : concat(local.common_topics, ["gcs", "google-cloud-storage"]),
       secrets : data.terraform_remote_state.upload-cloud-storage-infra.outputs.secrets
     },
     {
       name : "deploy-appengine",
       description : "This action deploys your source code to App Engine.",
       templated : false,
+      topics : concat(local.common_topics, ["gae", "google-app-engine", "google-appengine"]),
       secrets : data.terraform_remote_state.deploy-appengine-infra.outputs.secrets
     },
     {
       name : "deploy-workflow",
       description : "This action deploys your Google Cloud Workflow",
       templated : false,
+      topics : concat(local.common_topics, ["workflows", "google-cloud-workflows"]),
       secrets : data.terraform_remote_state.deploy-workflow-infra.outputs.secrets
     },
     {
@@ -90,13 +98,14 @@ locals {
       name : "ssh-compute",
       description : "This action allows you to ssh into a Compute Engine instance.",
       templated : false,
+      topics : concat(local.common_topics, ["gce", "compute-engine", "google-cloud-compute"]),
       secrets : data.terraform_remote_state.ssh-compute.outputs.secrets
     },
     {
       name : "auth",
       description : "GitHub Action for authenticating to Google Cloud with GitHub Actions OIDC tokens and Workload Identity Federation.",
       templated : false,
-      topics : ["github-actions", "google-cloud", "identity", "security"],
+      topics : concat(local.common_topics, ["iam", "identity", "security", "authentication", "google-cloud-identity"]),
       delete_branch_on_merge : true,
       has_downloads : true,
       secrets : data.terraform_remote_state.auth.outputs.secrets
@@ -106,6 +115,7 @@ locals {
         "credentials_json (ubuntu-latest)",
         "credentials_json (windows-latest)",
         "install_and_compile",
+        "unit",
         "workload_identity_federation (macos-latest)",
         "workload_identity_federation (ubuntu-latest)",
         "workload_identity_federation (windows-latest)",
