@@ -55,6 +55,17 @@ resource "google_project_iam_member" "cloud-build-editor" {
   role    = "roles/cloudbuild.builds.editor"
   member  = "serviceAccount:${google_service_account.appengine-deploy-sa.email}"
 }
+
+# Allow deploy appengine SA to use app engine default sa
+data "google_app_engine_default_service_account" "default" {
+  project = var.gcp_project
+}
+resource "google_service_account_iam_member" "appengine-default-sa-user" {
+  service_account_id = data.google_app_engine_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.appengine-deploy-sa.email}"
+}
+
 # Create key
 resource "google_service_account_key" "key" {
   service_account_id = google_service_account.appengine-deploy-sa.name
