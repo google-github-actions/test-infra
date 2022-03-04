@@ -124,11 +124,6 @@ locals {
       description : "User has not signed the Contributor License Agreement"
     },
     {
-      name : "automerge",
-      color : "C2E0C6",
-      description : "Merge the pull request once unit tests and other checks pass."
-    },
-    {
       name : "autorelease: pending",
       color : "e8e8e8",
       description : ""
