@@ -121,6 +121,16 @@ locals {
         "workload_identity_federation (windows-latest)",
       ]
     },
+    {
+      name : "example-workflows",
+      description : "Repository to demonstrate example workflows.",
+      templated : false,
+      topics : concat(local.common_topics, ["examples", "starter-workflows"]),
+      delete_branch_on_merge : true,
+      status_checks : [
+        "cla/google",
+      ]
+    },
   ]
 }
 
