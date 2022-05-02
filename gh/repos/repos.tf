@@ -114,7 +114,6 @@ locals {
         "credentials_json (macos-latest)",
         "credentials_json (ubuntu-latest)",
         "credentials_json (windows-latest)",
-        "install_and_compile",
         "unit",
         "workload_identity_federation (macos-latest)",
         "workload_identity_federation (ubuntu-latest)",
