@@ -28,6 +28,14 @@ module "project-services" {
   ]
 }
 
+# Get the cloud build serivce account.
+resource "google_project_service_identity" "cloudbuild" {
+  provider = google-beta
+
+  project = var.gcp_project
+  service = "cloudbuild.googleapis.com"
+}
+
 # Create a test pubsub topic.
 resource "google_pubsub_topic" "test-topic" {
   name = var.deploy_cf_test_topic
@@ -49,6 +57,22 @@ resource "google_project_iam_member" "deploy-cf-admin" {
 # Assign the IAM Service Account User role on the CF runtime service account:
 resource "google_service_account_iam_member" "cf-default-sa" {
   service_account_id = "projects/${var.gcp_project}/serviceAccounts/${var.gcp_project}@appspot.gserviceaccount.com"
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.deploy-cf-it-sa.email}"
+}
+
+# Assign the IAM Service Account User role on for Cloud Build to impersonate the
+# runtime service account.
+resource "google_service_account_iam_member" "cf-impersonate-sa" {
+  service_account_id = google_service_account.deploy-cf-it-sa.id
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_project_service_identity.cloudbuild.email}"
+}
+
+# Assign the IAM Service Account User role for the SA to impersonate itself
+# (yea, really).
+resource "google_service_account_iam_member" "self-impersonate-sa" {
+  service_account_id = google_service_account.deploy-cf-it-sa.id
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${google_service_account.deploy-cf-it-sa.email}"
 }

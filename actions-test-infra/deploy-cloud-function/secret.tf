@@ -29,9 +29,18 @@ resource "google_secret_manager_secret_version" "version" {
   secret_data = "my super secret data"
 }
 
-resource "google_secret_manager_secret_iam_member" "access-secret" {
+# Grant the default runtime service account permissions.
+resource "google_secret_manager_secret_iam_member" "default-access-secret" {
   provider  = google-beta
   secret_id = google_secret_manager_secret.secret.id
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${var.gcp_project}@appspot.gserviceaccount.com"
+}
+
+# Grant the custom runtime service account permissions.
+resource "google_secret_manager_secret_iam_member" "custom-access-secret" {
+  provider  = google-beta
+  secret_id = google_secret_manager_secret.secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.deploy-cf-it-sa.email}"
 }
