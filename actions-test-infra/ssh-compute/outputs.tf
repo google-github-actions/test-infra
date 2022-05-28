@@ -21,7 +21,6 @@ locals {
     "SSH_COMPUTE_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
     "SSH_COMPUTE_SA_KEY_B64" : google_service_account_key.key.private_key,
     "SSH_COMPUTE_IAP_VM_NAME" : module.ssh-iap-vm.hostname,
-    "SSH_COMPUTE_EXTERNAL_VM_NAME" : google_compute_instance.ssh-external-vm.name
   }
 }
 
