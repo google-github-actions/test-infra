@@ -15,14 +15,21 @@
  */
 
 provider "github" {
-  version      = "~> 4.4.0"
-  organization = local.gh_org
+  owner = local.gh_org
 }
 
-provider "google" {
-  version = "~> 3.39.0"
-}
+provider "google" {}
 
 terraform {
-  required_version = ">=0.13.4, <0.14"
+  required_version = ">=1.0.0"
+  required_providers {
+    github = {
+      source  = "integrations/github"
+      version = "~> 4.26.1"
+    }
+
+    google = {
+      version = "~> 4.25.0"
+    }
+  }
 }
