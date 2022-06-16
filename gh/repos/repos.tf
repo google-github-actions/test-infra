@@ -130,6 +130,16 @@ locals {
         "cla/google",
       ]
     },
+    {
+      name : "run-vertexai-notebook",
+      description : "GitHub Action for running Google Cloud Vertex AI notebooks asynchronously.",
+      templated : false,
+      topics : concat(local.common_topics, ["machine-learning", "vertex-ai", "artificial-intelligence", "ml-notebooks"]),
+      delete_branch_on_merge : true,
+      status_checks : [
+        "cla/google",
+      ]
+    },
   ]
 }
 

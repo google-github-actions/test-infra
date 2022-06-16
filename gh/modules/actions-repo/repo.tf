@@ -19,6 +19,7 @@ resource "github_repository" "repo" {
   description            = var.description
   allow_merge_commit     = false
   allow_rebase_merge     = false
+  allow_auto_merge       = true
   is_template            = false
   has_issues             = true
   delete_branch_on_merge = var.delete_branch_on_merge
@@ -35,9 +36,11 @@ resource "github_repository" "repo" {
 }
 
 resource "github_branch_protection" "branch_protection" {
-  repository_id  = github_repository.repo.node_id
-  pattern        = "main"
-  enforce_admins = var.enforce_admins
+  repository_id                   = github_repository.repo.node_id
+  pattern                         = "main"
+  enforce_admins                  = var.enforce_admins
+  require_conversation_resolution = true
+  required_linear_history         = true
   required_status_checks {
     strict   = true
     contexts = var.status_checks
