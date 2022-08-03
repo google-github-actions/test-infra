@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,22 @@
  */
 
 provider "google" {
-  version = "~> 3.39"
   project = var.gcp_project
 }
 
 provider "google-beta" {
-  version = "~> 3.39"
   project = var.gcp_project
 }
 
 terraform {
-  required_version = ">=0.13.4, <0.14"
+  required_version = ">=1.0.0"
+  required_providers {
+    google = {
+      version = "~> 4.25.0"
+    }
+
+    google-beta = {
+      version = "~> 4.25.0"
+    }
+  }
 }
