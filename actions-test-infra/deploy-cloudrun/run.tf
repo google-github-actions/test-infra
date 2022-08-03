@@ -17,7 +17,7 @@
 # Enable necessary APIs.
 module "project-services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 9.0"
+  version = "~> 13.0"
 
   project_id = var.gcp_project
 
