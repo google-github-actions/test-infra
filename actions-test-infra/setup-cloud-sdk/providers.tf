@@ -15,6 +15,16 @@
  */
 
 provider "google" {
-  version = "~> 3.60.0"
   project = var.gcp_project
 }
+
+terraform {
+  required_version = ">=1.0.0"
+  required_providers {
+
+    google = {
+      version = "~> 4.0"
+    }
+  }
+}
+
