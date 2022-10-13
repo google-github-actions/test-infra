@@ -95,6 +95,11 @@ locals {
       secrets : data.terraform_remote_state.setup-sdk-infra.outputs.secrets
     },
     {
+      name : "actions-utils",
+      description : "NPM package for Google GitHub Actions utils",
+      templated : false
+    },
+    {
       name : "ssh-compute",
       description : "This action allows you to ssh into a Compute Engine instance.",
       templated : false,
