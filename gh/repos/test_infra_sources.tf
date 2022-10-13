@@ -78,6 +78,14 @@ data "terraform_remote_state" "setup-sdk-infra" {
   }
 }
 
+data "terraform_remote_state" "actions-utils" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/actions-utils"
+  }
+}
+
 data "terraform_remote_state" "auth" {
   backend = "gcs"
   config = {
