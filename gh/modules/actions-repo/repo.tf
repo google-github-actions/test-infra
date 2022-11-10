@@ -15,17 +15,25 @@
  */
 
 resource "github_repository" "repo" {
-  name                   = var.repo_name
-  description            = var.description
-  allow_merge_commit     = false
-  allow_rebase_merge     = false
-  allow_auto_merge       = true
-  is_template            = false
-  has_issues             = true
-  delete_branch_on_merge = var.delete_branch_on_merge
-  topics                 = var.topics
-  has_downloads          = var.has_downloads
-  vulnerability_alerts   = var.vulnerability_alerts
+  name        = var.repo_name
+  description = var.description
+
+  allow_merge_commit          = false
+  allow_rebase_merge          = false
+  allow_squash_merge          = true
+  allow_auto_merge            = true
+  squash_merge_commit_title   = "PR_TITLE"
+  squash_merge_commit_message = "PR_BODY"
+  delete_branch_on_merge      = var.delete_branch_on_merge
+
+  is_template          = false
+  has_issues           = true
+  has_projects         = false
+  has_wiki             = false
+  topics               = var.topics
+  has_downloads        = var.has_downloads
+  vulnerability_alerts = var.vulnerability_alerts
+
   dynamic "template" {
     for_each = var.template_repo_name == "" ? [] : [var.template_repo_name]
     content {

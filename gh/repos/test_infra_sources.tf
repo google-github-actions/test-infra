@@ -22,6 +22,14 @@ data "terraform_remote_state" "deploy-cf-infra" {
   }
 }
 
+data "terraform_remote_state" "setup-gcloud-infra" {
+  backend = "gcs"
+  config = {
+    bucket = "actions-infra-tfstate-b4fa"
+    prefix = "state/setup-gcloud"
+  }
+}
+
 data "terraform_remote_state" "get-gke-cred-test-infra" {
   backend = "gcs"
   config = {
