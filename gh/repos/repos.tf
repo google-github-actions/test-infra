@@ -19,6 +19,13 @@ locals {
   common_topics = ["actions", "github-actions", "gcp", "google-cloud", "google-cloud-platform"]
   repos = [
     {
+      name : "setup-gcloud",
+      description : "A GitHub Action for configuring the Google Cloud SDK.",
+      topics : concat(local.common_topics, ["gcloud", "gcloud-sdk", "gcloud-cli", "bq", "gsutil"]),
+      templated : false,
+      secrets : data.terraform_remote_state.setup-gcloud-infra.outputs.secrets,
+    },
+    {
       name : "test-infra",
       description : "Test infrastructure for Google Github Actions.",
       templated : false
