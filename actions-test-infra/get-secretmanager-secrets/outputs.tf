@@ -16,12 +16,11 @@
 
 locals {
   secrets = {
+    "SECRET_REF" : google_secret_manager_secret.secret.id,
+    "SECRET_VERSION_REF" : google_secret_manager_secret_version.version.id,
+
     "WIF_PROVIDER_NAME" : module.oidc.provider_name,
-    "GET_SECRETMANAGER_SECRETS_SECRET_REF" : google_secret_manager_secret.secret.id,
-    "GET_SECRETMANAGER_SECRETS_SECRET_VERSION_REF" : google_secret_manager_secret_version.version.id,
-    "GET_SECRETMANAGER_SECRETS_SA_EMAIL" : google_service_account.get-secretmanager-secrets-sa.email,
-    "GET_SECRETMANAGER_SECRETS_SA_KEY_JSON" : base64decode(google_service_account_key.key.private_key),
-    "GET_SECRETMANAGER_SECRETS_SA_KEY_B64" : google_service_account_key.key.private_key,
+    "WIF_SERVICE_ACCOUNT_EMAIL" : google_service_account.get-secretmanager-secrets-sa.email,
   }
 }
 

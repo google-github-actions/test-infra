@@ -21,15 +21,16 @@ provider "github" {
 provider "google" {}
 
 terraform {
-  required_version = ">=1.0.0"
+  required_version = ">= 1.0.0"
+
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 4.26.1"
+      version = "~> 5.8"
     }
 
     google = {
-      version = "~> 4.25.0"
+      version = "~> 4.43"
     }
   }
 }
