@@ -17,7 +17,7 @@
 # Enable necessary APIs.
 module "project-services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 9.0"
+  version = "~> 14.0"
 
   project_id = var.gcp_project
 
@@ -27,7 +27,6 @@ module "project-services" {
 }
 
 resource "google_secret_manager_secret" "secret" {
-  provider  = google-beta
   project   = module.project-services.project_id
   secret_id = "get-secretmanager-secrets-test-secret"
   replication {
@@ -36,25 +35,21 @@ resource "google_secret_manager_secret" "secret" {
 }
 
 resource "google_secret_manager_secret_version" "version" {
-  provider    = google-beta
   secret      = google_secret_manager_secret.secret.id
   secret_data = "my super secret data"
 }
 
 resource "google_service_account" "get-secretmanager-secrets-sa" {
-  provider     = google-beta
   account_id   = var.get_secretmanager_secrets_it_sa_name
   display_name = var.get_secretmanager_secrets_it_sa_name
 }
 
 resource "google_secret_manager_secret_iam_member" "access-secret" {
-  provider  = google-beta
   secret_id = google_secret_manager_secret.secret.id
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.get-secretmanager-secrets-sa.email}"
 }
 
 resource "google_service_account_key" "key" {
-  provider           = google-beta
   service_account_id = google_service_account.get-secretmanager-secrets-sa.name
 }
