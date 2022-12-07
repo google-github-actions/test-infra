@@ -152,6 +152,16 @@ locals {
         "cla/google",
       ]
     },
+    {
+      name : "create-cloud-deploy-release",
+      description : "This action creates a release for Cloud Deploy.",
+      templated : false,
+      topics : concat(local.common_topics, ["google-cloud-deploy","cloud-deploy","ci-cd"]),
+      delete_branch_on_merge : true,
+      status_checks : [
+        "cla/google",
+      ]
+    },
   ]
 }
 
