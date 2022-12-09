@@ -20,7 +20,7 @@ module "deploy-cloud-functions" {
 
   repo_name         = "deploy-cloud-functions"
   repo_description  = "A GitHub Action that deploys source code to Google Cloud Functions."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/functions"
   repo_topics = concat([
     "cloud-functions",
     "gcf",
@@ -28,19 +28,9 @@ module "deploy-cloud-functions" {
   ], local.common_topics)
 
   repo_secrets = {
-    "PUBSUB_TOPIC_NAME" : google_pubsub_topic.topic.id
+    "PUBSUB_TOPIC_NAME" : google_pubsub_topic.deploy-cloud-functions.id
     "SECRET_NAME" : google_secret_manager_secret.secret.id
     "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [
@@ -75,4 +65,12 @@ resource "google_service_account_iam_member" "deploy-cloud-functions-self" {
   service_account_id = module.deploy-cloud-functions.service_account_name
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
+}
+
+resource "google_pubsub_topic" "deploy-cloud-functions" {
+  name = module.deploy-cloud-functions.iam_safe_repo_name
+
+  depends_on = [
+    google_project_service.services["pubsub.googleapis.com"],
+  ]
 }

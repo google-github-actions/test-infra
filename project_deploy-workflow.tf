@@ -20,23 +20,13 @@ module "deploy-workflow" {
 
   repo_name         = "deploy-workflow"
   repo_description  = "A GitHub Action for deploying Google Cloud Deploy workflows."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/deploy"
   repo_topics = concat([
     "deploy",
     "google-cloud-deploy",
     "google-cloud-workflows",
     "workflows",
   ], local.common_topics)
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
-  }
 
   depends_on = [
     google_project_service.services,

@@ -20,7 +20,7 @@ module "ssh-compute" {
 
   repo_name         = "ssh-compute"
   repo_description  = "A GitHub Action to SSH into a Google Compute Engine instance."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/compute"
   repo_topics = concat([
     "compute-engine",
     "gce",
@@ -32,16 +32,6 @@ module "ssh-compute" {
     "VM_NAME" : google_compute_instance.ssh-compute.instance_id
     "VM_ZONE" : google_compute_instance.ssh-compute.zone
     "VM_PRIVATE_KEY" : tls_private_key.ssh-compute.private_key_openssh
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

@@ -101,14 +101,6 @@ resource "google_secret_manager_secret_version" "version" {
   secret_data = "my super secret data"
 }
 
-resource "google_pubsub_topic" "topic" {
-  name = "test-topic"
-
-  depends_on = [
-    google_project_service.services["appengine.googleapis.com"],
-  ]
-}
-
 # Create a dedicated network with egress NAT.
 resource "google_compute_network" "network" {
   name        = "github-actions-network"

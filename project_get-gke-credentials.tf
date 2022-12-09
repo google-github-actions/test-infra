@@ -20,7 +20,7 @@ module "get-gke-credentials" {
 
   repo_name         = "get-gke-credentials"
   repo_description  = "A GitHub Action that configure authentication to a GKE cluster."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/gke"
   repo_topics = concat([
     "gke",
     "google-kubernetes-engine",
@@ -32,16 +32,6 @@ module "get-gke-credentials" {
     "PUBLIC_CLUSTER_LOCATION"  = google_container_cluster.get-gke-credentials-public.location
     "PRIVATE_CLUSTER_NAME"     = google_container_cluster.get-gke-credentials-private.name
     "PRIVATE_CLUSTER_LOCATION" = google_container_cluster.get-gke-credentials-private.location
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

@@ -20,7 +20,7 @@ module "auth" {
 
   repo_name         = "auth"
   repo_description  = "A GitHub Action for authenticating to Google Cloud."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/iam"
   repo_topics = concat([
     "authentication",
     "iam",
@@ -31,16 +31,6 @@ module "auth" {
   repo_secrets = {
     "SERVICE_ACCOUNT_KEY_JSON" : google_service_account_key.auth-key.private_key
     "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

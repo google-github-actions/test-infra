@@ -20,23 +20,14 @@ module "upload-cloud-storage" {
 
   repo_name         = "upload-cloud-storage"
   repo_description  = "A GitHub Action for uploading files to a Google Cloud Storage (GCS) bucket."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/storage"
   repo_topics = concat([
     "gcs",
     "google-cloud-storage",
   ], local.common_topics)
 
   repo_secrets = {
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
+    "BUCKET_NAME" : google_storage_bucket.upload-cloud-storage-bucket.name
   }
 
   depends_on = [
@@ -56,8 +47,8 @@ resource "google_storage_bucket" "upload-cloud-storage-bucket" {
   ]
 }
 
-resource "google_storage_bucket_iam_member" "upload-cloud-storage" {
-  bucket = google_storage_bucket.upload-cloud-storage-bucket.name
-  role   = "roles/storage.objectAdmin"
-  member = "serviceAccount:${module.upload-cloud-storage.service_account_email}"
+resource "google_project_iam_member" "upload-cloud-storage" {
+  project = data.google_project.project.project_id
+  role    = "roles/storage.admin" # To create test buckets and objects
+  member  = "serviceAccount:${module.upload-cloud-storage.service_account_email}"
 }

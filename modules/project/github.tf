@@ -12,6 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+locals {
+  default_repo_collaborators = {
+    users = {
+      "google-github-actions-bot" : "triage"
+    }
+
+    teams = {
+      "maintainers" : "admin"
+    }
+  }
+}
+
+
 resource "github_repository" "repo" {
   name         = var.repo_name
   description  = var.repo_description
@@ -72,7 +85,7 @@ resource "github_actions_secret" "secrets" {
 }
 
 resource "github_repository_collaborator" "users" {
-  for_each = var.repo_collaborators.users
+  for_each = merge(var.repo_collaborators.users, local.default_repo_collaborators.users)
 
   repository = github_repository.repo.name
   username   = each.key
@@ -80,7 +93,7 @@ resource "github_repository_collaborator" "users" {
 }
 
 resource "github_team_repository" "teams" {
-  for_each = var.repo_collaborators.teams
+  for_each = merge(var.repo_collaborators.teams, local.default_repo_collaborators.teams)
 
   repository = github_repository.repo.name
   team_id    = each.key

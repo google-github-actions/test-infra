@@ -20,7 +20,7 @@ module "deploy-cloudrun" {
 
   repo_name         = "deploy-cloudrun"
   repo_description  = "A GitHub Action for deploying services to Google Cloud Run."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/run"
   repo_topics = concat([
     "cloud-run",
     "cloudrun",
@@ -29,16 +29,6 @@ module "deploy-cloudrun" {
 
   repo_secrets = {
     "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

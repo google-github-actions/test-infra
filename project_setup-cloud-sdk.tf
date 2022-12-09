@@ -20,7 +20,7 @@ module "setup-cloud-sdk" {
 
   repo_name         = "setup-cloud-sdk"
   repo_description  = "An NPM package for installing and configuring the Google Cloud SDK in GitHub Actions."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/sdk/docs"
   repo_topics = concat([
     "gcloud",
     "npm",
@@ -28,16 +28,6 @@ module "setup-cloud-sdk" {
 
   repo_secrets = {
     "SERVICE_ACCOUNT_KEY_JSON" : base64decode(google_service_account_key.setup-cloud-sdk-key.private_key)
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

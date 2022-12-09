@@ -20,7 +20,7 @@ module "get-secretmanager-secrets" {
 
   repo_name         = "get-secretmanager-secrets"
   repo_description  = "A GitHub Action for accessing secrets from Google Secret Manager and making them available as outputs."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/secret-manager"
   repo_topics = concat([
     "google-secret-manager",
     "secret-manager",
@@ -30,16 +30,6 @@ module "get-secretmanager-secrets" {
   repo_secrets = {
     "SECRET_NAME" : google_secret_manager_secret.secret.id
     "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

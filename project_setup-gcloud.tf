@@ -20,7 +20,7 @@ module "setup-gcloud" {
 
   repo_name         = "setup-gcloud"
   repo_description  = "A GitHub Action for installing and configuring the gcloud CLI."
-  repo_homepage_url = "https://cloud.google.com/"
+  repo_homepage_url = "https://cloud.google.com/sdk/docs"
   repo_topics = concat([
     "bq",
     "gcloud-cli",
@@ -31,16 +31,6 @@ module "setup-gcloud" {
 
   repo_secrets = {
     "SERVICE_ACCOUNT_KEY_JSON" : google_service_account_key.setup-gcloud-key.private_key
-  }
-
-  repo_collaborators = {
-    users = {
-      "google-github-actions-bot" : "triage"
-    }
-
-    teams = {
-      "maintainers" : "admin"
-    }
   }
 
   depends_on = [

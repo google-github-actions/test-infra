@@ -52,6 +52,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
     "google.subject" : "assertion.sub"
     "attribute.actor" : "assertion.actor"
     "attribute.aud" : "assertion.aud"
+    "attribute.event_name" : "assertion.event_name"
     "attribute.repository_id" : "assertion.repository_id"
     "attribute.repository_owner_id" : "assertion.repository_owner_id"
     "attribute.workflow" : "assertion.workflow"
@@ -59,7 +60,10 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
 
   # We create conditions based on ID instead of name to prevent name hijacking
   # or squatting attacks.
-  attribute_condition = "attribute.repository_owner_id == \"${var.github_organization_id}\" && attribute.repository_id == \"${github_repository.repo.repo_id}\""
+  #
+  # We also prevent pull_request_target, since that runs arbitrary code:
+  #   https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+  attribute_condition = "attribute.event_name != \"pull_request_target\" && attribute.repository_owner_id == \"${var.github_organization_id}\" && attribute.repository_id == \"${github_repository.repo.repo_id}\""
 
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
