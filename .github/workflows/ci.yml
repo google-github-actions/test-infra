@@ -1,0 +1,34 @@
+name: 'CI'
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: 'actions/checkout@v3'
+
+      - uses: 'hashicorp/setup-terraform@v2.0.3'
+        with:
+          terraform_version: '1.3'
+
+      - run: |-
+          terraform fmt -check -diff
+
+      - run: |-
+          terraform init -backend=false -input=false
+
+      - run: |-
+          terraform validate
