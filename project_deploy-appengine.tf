@@ -34,16 +34,8 @@ module "deploy-appengine" {
   ]
 }
 
-# Create the AppEngine app.
-resource "google_app_engine_application" "application" {
-  location_id = "us-central"
-  depends_on = [
-    google_project_service.services["appengine.googleapis.com"],
-  ]
-}
-
 # Assign roles.
-resource "google_project_iam_member" "permissions" {
+resource "google_project_iam_member" "deploy-appengine-permissions" {
   for_each = toset([
     "roles/appengine.appAdmin",
     "roles/storage.admin",
@@ -56,7 +48,7 @@ resource "google_project_iam_member" "permissions" {
 }
 
 # Allow deploy appengine SA to use app engine default service account.
-resource "google_service_account_iam_member" "appengine-default-sa-user" {
+resource "google_service_account_iam_member" "deploy-appengine-default-sa-user" {
   service_account_id = data.google_app_engine_default_service_account.account.name
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${module.deploy-appengine.service_account_email}"

@@ -107,6 +107,12 @@ resource "google_compute_instance" "ssh-compute" {
     email  = google_service_account.ssh-compute-vm.email
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata["ssh-keys"],
+    ]
+  }
 }
 
 resource "google_compute_firewall" "ssh-compute-iap" {

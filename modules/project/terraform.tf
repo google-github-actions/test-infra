@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
+# If you change these values, also update the root terraform.tf!
 terraform {
   required_version = ">= 1.0.0"
 
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 5.8"
+      version = "~> 5.12"
     }
 
     google = {
-      version = "~> 4.43"
+      version = "~> 4.45"
     }
   }
 }

@@ -12,22 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# If you change these values, also update the modules/project terraform.tf!
-terraform {
-  required_version = ">= 1.0.0"
+module "actions-utils" {
+  source = "./modules/project"
 
-  required_providers {
-    github = {
-      source  = "integrations/github"
-      version = "~> 5.12"
-    }
+  github_organization_name = data.github_organization.organization.orgname
+  github_organization_id   = data.github_organization.organization.id
 
-    google = {
-      version = "~> 4.45"
-    }
-  }
+  repo_name         = "actions-utils"
+  repo_description  = "An NPM package for Google GitHub Actions utils."
+  repo_homepage_url = "https://github.com/google-github-actions"
+  repo_topics       = []
 
-  backend "gcs" {
-    bucket = "github-actions-test-infra"
-  }
+  depends_on = [
+    google_project_service.services,
+  ]
 }

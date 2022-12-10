@@ -46,6 +46,13 @@ resource "github_repository" "repo" {
   has_wiki             = false
   is_template          = false
   vulnerability_alerts = true
+
+  lifecycle {
+    ignore_changes = [
+      # https://github.com/integrations/terraform-provider-github/issues/1419
+      security_and_analysis,
+    ]
+  }
 }
 
 resource "github_branch_protection" "protection" {
@@ -61,6 +68,12 @@ resource "github_branch_protection" "protection" {
   required_pull_request_reviews {
     dismiss_stale_reviews      = false
     require_code_owner_reviews = true
+  }
+
+  lifecycle {
+    ignore_changes = [
+      required_status_checks[0].contexts,
+    ]
   }
 }
 
