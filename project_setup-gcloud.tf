@@ -41,5 +41,5 @@ module "setup-gcloud" {
 # The setup-gcloud action needs an exported service account key to test the
 # SAKE integration.
 resource "google_service_account_key" "setup-gcloud-key" {
-  service_account_id = module.auth.service_account_name
+  service_account_id = module.setup-gcloud.service_account_name
 }
