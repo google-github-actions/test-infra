@@ -63,7 +63,13 @@ resource "google_project_service" "services" {
   ]
 }
 
-# TODO(sethvargo): get secret
+resource "google_app_engine_application" "application" {
+  location_id = "us-central"
+  depends_on = [
+    google_project_service.services["appengine.googleapis.com"],
+  ]
+}
+
 data "google_secret_manager_secret_version" "bot" {
   secret = "github-actions-bot-pat"
 

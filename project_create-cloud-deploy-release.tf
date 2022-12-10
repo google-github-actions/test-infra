@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# If you change these values, also update the modules/project terraform.tf!
-terraform {
-  required_version = ">= 1.0.0"
+module "create-cloud-deploy-release" {
+  source = "./modules/project"
 
-  required_providers {
-    github = {
-      source  = "integrations/github"
-      version = "~> 5.12"
-    }
+  github_organization_name = data.github_organization.organization.orgname
+  github_organization_id   = data.github_organization.organization.id
 
-    google = {
-      version = "~> 4.45"
-    }
-  }
+  repo_name         = "create-cloud-deploy-release"
+  repo_description  = "A GitHub Action for creating releases via Cloud Deploy."
+  repo_homepage_url = "https://cloud.google.com/deploy"
+  repo_topics = concat([
+    "ci-cd",
+    "cloud-deploy",
+    "google-cloud-deploy",
+  ], local.common_topics)
 
-  backend "gcs" {
-    bucket = "github-actions-test-infra"
-  }
+  depends_on = [
+    google_project_service.services,
+  ]
 }
