@@ -77,11 +77,6 @@ resource "github_branch_protection" "protection" {
   }
 }
 
-resource "github_repository_tag_protection" "protection" {
-  repository = github_repository.repo.name
-  pattern    = "v*"
-}
-
 resource "github_actions_secret" "secrets" {
   for_each = merge(
     {
