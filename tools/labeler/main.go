@@ -30,6 +30,12 @@ var DefaultLabels = []*Label{
 	{"help wanted", "Extra attention is needed", "feefc3"},
 }
 
+// IgnoredRepoNames is a list of repository names to skip
+// NOTE: Always ignore release-please-action as they have custom label mapping
+var IgnoredRepoNames = map[string]struct{}{
+	"release-please-action": {},
+}
+
 func main() {
 	ctx := context.Background()
 
@@ -49,6 +55,11 @@ func main() {
 	}
 
 	for _, repo := range repos {
+		if _, ok := IgnoredRepoNames[*repo.Name]; ok {
+			fmt.Printf("ignoring %s...\n", *repo.Name)
+			continue
+		}
+
 		fmt.Printf("syncing %s...\n", *repo.Name)
 		if err := syncLabels(ctx, client, "google-github-actions", *repo.Name); err != nil {
 			panic(err)
