@@ -60,6 +60,7 @@ resource "github_branch_protection" "protection" {
   pattern                         = "main"
   require_conversation_resolution = true
   required_linear_history         = true
+  require_signed_commits          = true
 
   required_status_checks {
     strict = true
