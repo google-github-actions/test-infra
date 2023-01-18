@@ -90,6 +90,9 @@ resource "google_compute_instance" "ssh-compute" {
   machine_type = "e2-micro"
   zone         = "us-central1-a"
 
+  # tag for internal firewall policies to allow iap
+  tags = ["allow-iap"]
+
   can_ip_forward            = true
   allow_stopping_for_update = true
 
