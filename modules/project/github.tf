@@ -60,7 +60,10 @@ resource "github_branch_protection" "protection" {
   pattern                         = "main"
   require_conversation_resolution = true
   required_linear_history         = true
-  require_signed_commits          = true
+
+  # temporarily disabling this until we can determine the best
+  # way to sign commit via a bot account
+  require_signed_commits = false
 
   required_status_checks {
     strict = true
