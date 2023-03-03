@@ -34,6 +34,7 @@ resource "google_project_service" "services" {
     "appengine.googleapis.com",
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
+    "clouddeploy.googleapis.com",
     "cloudfunctions.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
