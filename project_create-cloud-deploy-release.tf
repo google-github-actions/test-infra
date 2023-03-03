@@ -31,3 +31,24 @@ module "create-cloud-deploy-release" {
     google_project_service.services,
   ]
 }
+
+# Grant the custom service account permissions to create cloud deploy jobs.
+resource "google_project_iam_member" "create-cloud-deploy-release-roles" {
+  for_each = toset([
+    "roles/clouddeploy.operator",
+    "roles/clouddeploy.releaser",
+    "roles/storage.admin",
+  ])
+
+  project = data.google_project.project.project_id
+  role    = each.value
+  member  = "serviceAccount:${module.create-cloud-deploy-release.service_account_email}"
+}
+
+# Grant the custom service account permissions to impersonate the default runtime
+# service account.
+resource "google_service_account_iam_member" "create-cloud-deploy-release-default-sa-user" {
+  service_account_id = data.google_compute_default_service_account.account.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${module.create-cloud-deploy-release.service_account_email}"
+}
