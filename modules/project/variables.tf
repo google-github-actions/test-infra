@@ -69,6 +69,6 @@ variable "repo_secrets" {
 
 variable "repo_variables" {
   type        = map(string)
-  description = "List of additional GitHub rrepository variables. Note these will be available as plaintext!"
+  description = "List of additional GitHub repository variables. Note these will be available as plaintext!"
   default     = {}
 }
