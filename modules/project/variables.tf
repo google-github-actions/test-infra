@@ -34,7 +34,7 @@ variable "repo_description" {
 
 variable "repo_homepage_url" {
   type        = string
-  description = "URL for the homepage for the GitHUb repository."
+  description = "URL for the homepage for the GitHub repository."
 }
 
 variable "repo_topics" {
@@ -63,6 +63,12 @@ variable "repo_collaborators" {
 
 variable "repo_secrets" {
   type        = map(string)
-  description = "List of additional GitHub secrets."
+  description = "List of additional GitHub repository secrets."
+  default     = {}
+}
+
+variable "repo_variables" {
+  type        = map(string)
+  description = "List of additional GitHub repository variables. Note these will be available as plaintext!"
   default     = {}
 }

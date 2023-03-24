@@ -27,7 +27,13 @@ module "get-secretmanager-secrets" {
     "secrets",
   ], local.common_topics)
 
+  // TODO(sethvargo): remove after migrating to variables
   repo_secrets = {
+    "SECRET_NAME" : google_secret_manager_secret.secret.id
+    "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
+  }
+
+  repo_variables = {
     "SECRET_NAME" : google_secret_manager_secret.secret.id
     "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
   }

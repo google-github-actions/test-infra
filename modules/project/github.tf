@@ -83,6 +83,13 @@ resource "github_branch_protection" "protection" {
 
 resource "github_actions_secret" "secrets" {
   for_each = merge(
+    // For backwards-compatability, these are stored as secrets and variables.
+    // We are in the process of migrating to variables, since these are not
+    // actually "secret" and marking them as secrets can make log output
+    // unusable.
+    //
+    // TODO(sethvargo): remove after all workflow files have migrated to using
+    // variables instead of secrets for these values.
     {
       "PROJECT_ID" : google_service_account.account.project
       "SERVICE_ACCOUNT_EMAIL" : google_service_account.account.email
@@ -94,6 +101,21 @@ resource "github_actions_secret" "secrets" {
   repository      = github_repository.repo.name
   secret_name     = each.key
   plaintext_value = each.value
+}
+
+resource "github_actions_variable" "variables" {
+  for_each = merge(
+    {
+      "PROJECT_ID" : google_service_account.account.project
+      "SERVICE_ACCOUNT_EMAIL" : google_service_account.account.email
+      "WIF_PROVIDER_NAME" : google_iam_workload_identity_pool_provider.provider.name
+    },
+    var.repo_variables,
+  )
+
+  repository    = github_repository.repo.name
+  variable_name = each.key
+  value         = each.value
 }
 
 resource "github_repository_collaborator" "users" {
