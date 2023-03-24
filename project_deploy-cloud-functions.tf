@@ -27,7 +27,14 @@ module "deploy-cloud-functions" {
     "google-cloud-functions",
   ], local.common_topics)
 
+  // TODO(sethvargo): remove after migrating to variables
   repo_secrets = {
+    "PUBSUB_TOPIC_NAME" : google_pubsub_topic.deploy-cloud-functions.id
+    "SECRET_NAME" : google_secret_manager_secret.secret.id
+    "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
+  }
+
+  repo_variables = {
     "PUBSUB_TOPIC_NAME" : google_pubsub_topic.deploy-cloud-functions.id
     "SECRET_NAME" : google_secret_manager_secret.secret.id
     "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id

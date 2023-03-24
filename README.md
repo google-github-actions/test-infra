@@ -22,7 +22,7 @@ The test infrastructure uses the following principles:
 
 Each project has its own Google Cloud Service Account and Workload Identity
 Federation Provider for authentication and authorization. Repositories are
-automatically configured with GitHub Secrets that inject these configuration
+automatically configured with GitHub variables that inject these configuration
 variables as:
 
 -   `PROJECT_ID`
@@ -38,8 +38,8 @@ Additionally, there is an organization secret (accessible to all repos)
 Actions bot. This is largely for authoring commits, since the Google CLA cannot
 be signed by the GitHub Actions bot.
 
-Additional per-repository secrets and configuration should reside inside the
-project Terraform file.
+Additional per-repository variables and secrets and configuration should reside
+inside the project Terraform file.
 
 
 ## Setup
@@ -65,6 +65,15 @@ project Terraform file.
 1.  Create a GitHub Personal Access Token with permissions to administer
     repositories and configuration over the target organization defined in
     "github_organization_name".
+
+    If you use the `gh` cli, you can generate an access token automatically:
+
+    ```shell
+    export GITHUB_TOKEN="$(gh auth token)"
+    ```
+
+    If you do not use the `gh` cli, you will need to create a Personal Access
+    Token (PAT):
 
     > [Creating Person Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) in the GitHub documentation.
 

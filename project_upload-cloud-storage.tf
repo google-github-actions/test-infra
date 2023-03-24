@@ -26,7 +26,12 @@ module "upload-cloud-storage" {
     "google-cloud-storage",
   ], local.common_topics)
 
+  // TODO(sethvargo): remove after migrating to variables
   repo_secrets = {
+    "BUCKET_NAME" : google_storage_bucket.upload-cloud-storage-bucket.name
+  }
+
+  repo_variables = {
     "BUCKET_NAME" : google_storage_bucket.upload-cloud-storage-bucket.name
   }
 

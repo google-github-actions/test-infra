@@ -27,7 +27,15 @@ module "get-gke-credentials" {
     "kubernetes",
   ], local.common_topics)
 
+  // TODO(sethvargo): remove after migrating to variables
   repo_secrets = {
+    "PUBLIC_CLUSTER_NAME"      = google_container_cluster.get-gke-credentials-public.name
+    "PUBLIC_CLUSTER_LOCATION"  = google_container_cluster.get-gke-credentials-public.location
+    "PRIVATE_CLUSTER_NAME"     = google_container_cluster.get-gke-credentials-private.name
+    "PRIVATE_CLUSTER_LOCATION" = google_container_cluster.get-gke-credentials-private.location
+  }
+
+  repo_variables = {
     "PUBLIC_CLUSTER_NAME"      = google_container_cluster.get-gke-credentials-public.name
     "PUBLIC_CLUSTER_LOCATION"  = google_container_cluster.get-gke-credentials-public.location
     "PRIVATE_CLUSTER_NAME"     = google_container_cluster.get-gke-credentials-private.name

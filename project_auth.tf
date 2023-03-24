@@ -30,6 +30,12 @@ module "auth" {
 
   repo_secrets = {
     "SERVICE_ACCOUNT_KEY_JSON" : google_service_account_key.auth-key.private_key
+
+    // TOOD(sethvargo): remove after migrating to variables
+    "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
+  }
+
+  repo_variables = {
     "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
   }
 

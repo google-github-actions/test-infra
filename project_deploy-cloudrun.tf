@@ -27,7 +27,12 @@ module "deploy-cloudrun" {
     "google-cloud-run",
   ], local.common_topics)
 
+  // TODO(sethvargo): remove after migrating to variables
   repo_secrets = {
+    "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
+  }
+
+  repo_variables = {
     "SECRET_NAME" : google_secret_manager_secret.secret.secret_id
   }
 
