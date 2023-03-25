@@ -29,10 +29,6 @@ module "ssh-compute" {
   ], local.common_topics)
 
   repo_secrets = {
-    // TODO(sethvargo): remove after migrating to variables
-    "VM_NAME" : google_compute_instance.ssh-compute.instance_id
-    "VM_ZONE" : google_compute_instance.ssh-compute.zone
-
     "VM_PRIVATE_KEY" : tls_private_key.ssh-compute.private_key_openssh
   }
 

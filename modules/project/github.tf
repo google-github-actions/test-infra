@@ -87,14 +87,6 @@ resource "github_actions_secret" "secrets" {
     // We are in the process of migrating to variables, since these are not
     // actually "secret" and marking them as secrets can make log output
     // unusable.
-    //
-    // TODO(sethvargo): remove after all workflow files have migrated to using
-    // variables instead of secrets for these values.
-    {
-      "PROJECT_ID" : google_service_account.account.project
-      "SERVICE_ACCOUNT_EMAIL" : google_service_account.account.email
-      "WIF_PROVIDER_NAME" : google_iam_workload_identity_pool_provider.provider.name
-    },
     var.repo_secrets,
   )
 
