@@ -3,6 +3,11 @@
 This repository defines the GitHub repository configurations and test
 infrastructure for testing GitHub Actions.
 
+**This is not an officially supported Google product, and it is not covered by a
+Google Cloud support contract. To report bugs or request features in a Google
+Cloud product, please contact [Google Cloud
+support](https://cloud.google.com/support).**
+
 
 ## Principles
 
