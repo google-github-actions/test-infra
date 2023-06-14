@@ -27,7 +27,9 @@ module "setup-cloud-sdk" {
   ], local.common_topics)
 
   repo_secrets = {
-    "SERVICE_ACCOUNT_KEY_JSON" : base64decode(google_service_account_key.setup-cloud-sdk-key.private_key)
+    # jsonencode(jsondecode()) it to minify the JSON so that normal characters
+    # like ",{, and } are not obfuscated in output.
+    "SERVICE_ACCOUNT_KEY_JSON" : jsonencode(jsondecode(base64decode(google_service_account_key.setup-cloud-sdk-key.private_key)))
   }
 
   depends_on = [
