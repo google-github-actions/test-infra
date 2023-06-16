@@ -32,6 +32,13 @@ module "setup-cloud-sdk" {
     "SERVICE_ACCOUNT_KEY_JSON" : jsonencode(jsondecode(base64decode(google_service_account_key.setup-cloud-sdk-key.private_key)))
   }
 
+  repo_collaborators = {
+    teams = {}
+    users = {
+      "google-github-actions-bot" : "push"
+    }
+  }
+
   depends_on = [
     google_project_service.services,
   ]
