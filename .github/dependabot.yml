@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: 'gomod'
+    directory: '/tools'
+    rebase-strategy: 'disabled'
+    schedule:
+      interval: 'daily'
+    commit-message:
+      prefix: 'security: '
+    open-pull-requests-limit: 0 # only check security updates
+
+  - package-ecosystem: 'terraform'
+    directory: '/'
+    rebase-strategy: 'disabled'
+    schedule:
+      interval: 'daily'
+    commit-message:
+      prefix: 'security: '
+    open-pull-requests-limit: 0 # only check security updates
