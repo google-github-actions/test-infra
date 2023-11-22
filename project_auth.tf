@@ -41,14 +41,22 @@ module "auth" {
   ]
 }
 
+# Direct Workload Identity Federation
+resource "google_secret_manager_secret_iam_member" "auth-direct-secret-accessor" {
+  secret_id = google_secret_manager_secret.secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "principalSet://iam.googleapis.com/${module.auth.workload_identity_pool_name}/*"
+}
+
+# Workload Identity Federation through a Service Account
+resource "google_secret_manager_secret_iam_member" "auth-indirect-secret-accessor" {
+  secret_id = google_secret_manager_secret.secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${module.auth.service_account_email}"
+}
+
 # The auth action needs an exported service account key to test the
 # "credentials_json" input.
 resource "google_service_account_key" "auth-key" {
   service_account_id = module.auth.service_account_name
-}
-
-resource "google_secret_manager_secret_iam_member" "auth-secret-accessor" {
-  secret_id = google_secret_manager_secret.secret.id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${module.auth.service_account_email}"
 }

@@ -20,6 +20,14 @@ output "service_account_name" {
   value = google_service_account.account.name
 }
 
+output "workload_identity_pool_name" {
+  value = google_iam_workload_identity_pool.pool.name
+}
+
+output "workload_identity_provider_name" {
+  value = google_iam_workload_identity_pool_provider.provider.name
+}
+
 output "iam_safe_repo_name" {
   value = local.iam_safe_repo_name
 }
