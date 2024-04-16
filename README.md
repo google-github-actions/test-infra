@@ -106,18 +106,11 @@ repository, follow these steps to bootstrap a new project.
 
 1.  Define the `project` module, or copy-paste an existing project as a
     skeleton. Make sure you properly define the repository name, description,
-    labels, and ACLs. At minimum, you must add the following ACLs:
+    labels, and ACLs. The following default ACLs are always added:
 
-    ```hcl
-    repo_collaborators = {
-      users = {
-        "google-github-actions-bot" : "triage"
-      }
-
-      teams = {
-        "maintainers" : "admin"
-      }
-    }
+    ```text
+    google-github-actions-bot (triage)
+    @google-github-actions/maintainers (admin)
     ```
 
 1.  Add any other resources the project will need, such as secrets or IAM
