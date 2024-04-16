@@ -28,6 +28,13 @@ module "ssh-compute" {
     "google-compute-engine",
   ], local.common_topics)
 
+  repo_collaborators = {
+    teams = {}
+    users = {
+      "frodothetrue" : "maintain",
+    }
+  }
+
   repo_secrets = {
     "VM_PRIVATE_KEY" : tls_private_key.ssh-compute.private_key_openssh
   }

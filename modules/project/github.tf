@@ -110,18 +110,22 @@ resource "github_actions_variable" "variables" {
   value         = each.value
 }
 
-resource "github_repository_collaborator" "users" {
-  for_each = merge(local.default_repo_collaborators.users, var.repo_collaborators.users)
-
+resource "github_repository_collaborators" "collaborators" {
   repository = github_repository.repo.name
-  username   = each.key
-  permission = each.value
-}
 
-resource "github_team_repository" "teams" {
-  for_each = merge(local.default_repo_collaborators.teams, var.repo_collaborators.teams)
+  dynamic "user" {
+    for_each = merge(local.default_repo_collaborators.users, var.repo_collaborators.users)
+    content {
+      username   = user.key
+      permission = user.value
+    }
+  }
 
-  repository = github_repository.repo.name
-  team_id    = each.key
-  permission = each.value
+  dynamic "team" {
+    for_each = merge(local.default_repo_collaborators.teams, var.repo_collaborators.teams)
+    content {
+      team_id    = team.key
+      permission = team.value
+    }
+  }
 }
