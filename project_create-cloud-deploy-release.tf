@@ -27,6 +27,13 @@ module "create-cloud-deploy-release" {
     "google-cloud-deploy",
   ], local.common_topics)
 
+  repo_collaborators = {
+    teams = {}
+    users = {
+      "henrybell" : "maintain",
+    }
+  }
+
   depends_on = [
     google_project_service.services,
   ]

@@ -1,4 +1,4 @@
-# Copyright 2022 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,13 +20,20 @@ module "deploy-gke" {
 
   repo_name         = "deploy-gke"
   repo_description  = "A GitHub Action to SSH into a Google Compute Engine instance."
-  repo_homepage_url = "https://cloud.google.com/compute"
+  repo_homepage_url = "https://cloud.google.com/kubernetes-engine"
   repo_topics = concat([
     "google-kubernetes-engine",
     "gke",
     "kubernetes",
     "deployment",
   ], local.common_topics)
+
+  repo_collaborators = {
+    teams = {
+      "deploy-gke-maintainers" : "maintain",
+    }
+    users = {}
+  }
 
   depends_on = [
     google_project_service.services,
