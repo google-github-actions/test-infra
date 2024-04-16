@@ -21,11 +21,11 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 5.42"
+      version = "~> 6.2"
     }
 
     google = {
-      version = "~> 5.7"
+      version = "~> 5.25"
     }
   }
 }

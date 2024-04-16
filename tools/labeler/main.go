@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/google/go-github/v48/github"
+	"github.com/google/go-github/v61/github"
 	"github.com/hashicorp/go-multierror"
 	"golang.org/x/oauth2"
 )
@@ -45,7 +45,7 @@ func main() {
 
 	client := github.NewClient(oauth2.NewClient(ctx, tokenSource))
 
-	repos, _, err := client.Repositories.List(ctx, "google-github-actions", &github.RepositoryListOptions{
+	repos, _, err := client.Repositories.ListByUser(ctx, "google-github-actions", &github.RepositoryListByUserOptions{
 		ListOptions: github.ListOptions{
 			PerPage: 100,
 		},

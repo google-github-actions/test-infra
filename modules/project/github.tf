@@ -49,8 +49,8 @@ resource "github_repository" "repo" {
 
   lifecycle {
     ignore_changes = [
-      # https://github.com/integrations/terraform-provider-github/issues/1419
-      security_and_analysis,
+      # https://github.com/integrations/terraform-provider-github/issues/2077
+      web_commit_signoff_required,
     ]
   }
 }
