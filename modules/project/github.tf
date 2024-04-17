@@ -39,6 +39,7 @@ resource "github_repository" "repo" {
   delete_branch_on_merge      = true
   squash_merge_commit_message = "PR_BODY"
   squash_merge_commit_title   = "PR_TITLE"
+  web_commit_signoff_required = true
 
   has_downloads        = false
   has_issues           = true
@@ -46,13 +47,6 @@ resource "github_repository" "repo" {
   has_wiki             = false
   is_template          = false
   vulnerability_alerts = true
-
-  lifecycle {
-    ignore_changes = [
-      # https://github.com/integrations/terraform-provider-github/issues/2077
-      web_commit_signoff_required,
-    ]
-  }
 }
 
 resource "github_branch_protection" "protection" {

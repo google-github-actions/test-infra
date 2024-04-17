@@ -26,8 +26,7 @@ module "analyze-code-security-scc" {
     "cloud-security-command-center",
     "security-command-center",
     "scc",
-    "kubernetes",
-    "deployment",
+    "security",
   ], local.common_topics)
 
   repo_collaborators = {

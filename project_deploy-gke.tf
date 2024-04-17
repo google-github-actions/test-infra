@@ -19,7 +19,7 @@ module "deploy-gke" {
   github_organization_id   = data.github_organization.organization.id
 
   repo_name         = "deploy-gke"
-  repo_description  = "A GitHub Action to SSH into a Google Compute Engine instance."
+  repo_description  = "A GitHub Action to deploy workloads to Google Kubernetes Engine."
   repo_homepage_url = "https://cloud.google.com/kubernetes-engine"
   repo_topics = concat([
     "google-kubernetes-engine",
