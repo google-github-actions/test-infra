@@ -31,7 +31,7 @@ module "ssh-compute" {
   repo_collaborators = {
     teams = {}
     users = {
-      "frodothetrue" : "maintain",
+      "FrodoTheTrue" : "push",
     }
   }
 

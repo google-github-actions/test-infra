@@ -31,7 +31,7 @@ module "run-vertexai-notebook" {
   repo_collaborators = {
     teams = {}
     users = {
-      "bradegler" : "maintain",
+      "bradegler" : "push",
     }
   }
 

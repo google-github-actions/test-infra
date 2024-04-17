@@ -30,7 +30,7 @@ module "deploy-gke" {
 
   repo_collaborators = {
     teams = {
-      "deploy-gke-maintainers" : "maintain",
+      "deploy-gke-maintainers" : "push",
     }
     users = {}
   }
