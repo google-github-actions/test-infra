@@ -30,7 +30,7 @@ module "create-cloud-deploy-release" {
   repo_collaborators = {
     teams = {}
     users = {
-      "henrybell" : "maintain",
+      "henrybell" : "push",
     }
   }
 

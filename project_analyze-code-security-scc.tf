@@ -31,12 +31,10 @@ module "analyze-code-security-scc" {
   ], local.common_topics)
 
   repo_collaborators = {
-    teams = {}
-    users = {
-      "adishagarwal" : "push",
-      "kishorekgarg" : "push",
-      "sanyam803" : "push",
+    teams = {
+      "analyze-code-security-scc-maintainers" : "push",
     }
+    users = {}
   }
 
   depends_on = [
