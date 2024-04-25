@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+locals {
+  app_name  = "deploy-gke-app"
+  namespace = "deploy-gke-ns"
+  expose    = "80"
+  image     = "nginx:latest"
+}
+
 module "deploy-gke" {
   source = "./modules/project"
 
@@ -28,6 +35,15 @@ module "deploy-gke" {
     "deployment",
   ], local.common_topics)
 
+  repo_variables = {
+    "IMAGE"          = local.image
+    "APP_NAME"       = local.app_name
+    "CLUSTER_REGION" = google_container_cluster.deploy_gke.location
+    "CLUSTER_NAME"   = google_container_cluster.deploy_gke.name
+    "NAMESPACE"      = local.namespace
+    "EXPOSE"         = local.expose
+  }
+
   repo_collaborators = {
     teams = {
       "deploy-gke-maintainers" : "push",
@@ -39,10 +55,35 @@ module "deploy-gke" {
     google_project_service.services,
   ]
 }
+
+resource "google_container_cluster" "deploy_gke" {
+  name     = "deploy-gke-cluster"
+  location = "us-central1"
+  network  = google_compute_network.network.id
+
+  initial_node_count = 1
+
+  release_channel {
+    channel = "REGULAR"
+  }
+
+  timeouts {
+    create = "15m"
+    update = "15m"
+  }
+
+  depends_on = [
+    google_project_service.services["container.googleapis.com"],
+  ]
+}
+
 # Grant the custom service account permissions to manage gke resources.
 resource "google_project_iam_member" "deploy-gke-roles" {
   for_each = toset([
     "roles/container.developer",
+
+    # For verifying deployments in the gke cluster
+    "roles/container.clusterViewer",
   ])
 
   project = data.google_project.project.project_id
