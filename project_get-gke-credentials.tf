@@ -57,21 +57,24 @@ resource "google_project_iam_member" "get-gke-credentials" {
 
 # Public GKE cluster
 resource "google_compute_subnetwork" "get-gke-credentials-public" {
-  name          = "get-gke-credentials-public"
-  ip_cidr_range = "10.0.0.0/17"
-  region        = "us-central1"
-  network       = google_compute_network.network.id
+  name    = "get-gke-credentials-public"
+  region  = "us-central1"
+  network = google_compute_network.network.id
+
+  ip_cidr_range    = "10.0.0.0/24"
+  stack_type       = "IPV4_IPV6"
+  ipv6_access_type = "INTERNAL"
 
   private_ip_google_access = true
 
   secondary_ip_range {
     range_name    = "get-gke-credentials-public-pods"
-    ip_cidr_range = "192.168.0.0/18"
+    ip_cidr_range = "192.168.0.0/24"
   }
 
   secondary_ip_range {
     range_name    = "get-gke-credentials-public-services"
-    ip_cidr_range = "192.168.64.0/18"
+    ip_cidr_range = "192.168.1.0/24"
   }
 }
 
@@ -79,13 +82,15 @@ resource "google_container_cluster" "get-gke-credentials-public" {
   name     = "get-gke-credentials-public"
   location = google_compute_subnetwork.get-gke-credentials-public.region
 
-  enable_autopilot   = true
-  initial_node_count = 1
+  enable_autopilot         = true
+  enable_l4_ilb_subsetting = true
+  deletion_protection      = false
 
   network    = google_compute_network.network.id
   subnetwork = google_compute_subnetwork.get-gke-credentials-public.id
 
   ip_allocation_policy {
+    stack_type                    = "IPV4_IPV6"
     cluster_secondary_range_name  = google_compute_subnetwork.get-gke-credentials-public.secondary_ip_range[0].range_name
     services_secondary_range_name = google_compute_subnetwork.get-gke-credentials-public.secondary_ip_range[1].range_name
   }
@@ -106,21 +111,24 @@ resource "google_container_cluster" "get-gke-credentials-public" {
 
 # Private GKE cluster
 resource "google_compute_subnetwork" "get-gke-credentials-private" {
-  name          = "get-gke-credentials-private"
-  ip_cidr_range = "10.0.128.0/17"
-  region        = "us-central1"
-  network       = google_compute_network.network.id
+  name    = "get-gke-credentials-private"
+  region  = "us-central1"
+  network = google_compute_network.network.id
+
+  ip_cidr_range    = "10.0.1.0/24"
+  stack_type       = "IPV4_IPV6"
+  ipv6_access_type = "INTERNAL"
 
   private_ip_google_access = true
 
   secondary_ip_range {
     range_name    = "get-gke-credentials-private-pods"
-    ip_cidr_range = "192.168.128.0/18"
+    ip_cidr_range = "192.168.10.0/24"
   }
 
   secondary_ip_range {
     range_name    = "get-gke-credentials-private-services"
-    ip_cidr_range = "192.168.192.0/18"
+    ip_cidr_range = "192.168.11.0/24"
   }
 }
 
@@ -128,8 +136,9 @@ resource "google_container_cluster" "get-gke-credentials-private" {
   name     = "get-gke-credentials-private"
   location = google_compute_subnetwork.get-gke-credentials-private.region
 
-  enable_autopilot   = true
-  initial_node_count = 1
+  enable_autopilot         = true
+  enable_l4_ilb_subsetting = true
+  deletion_protection      = false
 
   network    = google_compute_network.network.id
   subnetwork = google_compute_subnetwork.get-gke-credentials-private.id
@@ -148,6 +157,7 @@ resource "google_container_cluster" "get-gke-credentials-private" {
   }
 
   ip_allocation_policy {
+    stack_type                    = "IPV4_IPV6"
     cluster_secondary_range_name  = google_compute_subnetwork.get-gke-credentials-private.secondary_ip_range[0].range_name
     services_secondary_range_name = google_compute_subnetwork.get-gke-credentials-private.secondary_ip_range[1].range_name
   }
@@ -182,6 +192,7 @@ resource "google_gke_hub_membership" "get-get-credentials-private" {
 
 resource "google_gke_hub_membership_iam_member" "get-gke-credentials-private" {
   project       = data.google_project.project.project_id
+  location      = google_gke_hub_membership.get-get-credentials-private.location
   membership_id = google_gke_hub_membership.get-get-credentials-private.membership_id
   role          = "roles/viewer"
   member        = "serviceAccount:${module.get-gke-credentials.service_account_email}"
