@@ -67,10 +67,13 @@ resource "tls_private_key" "ssh-compute" {
 }
 
 resource "google_compute_subnetwork" "ssh-compute" {
-  name          = "ssh-compute"
-  ip_cidr_range = "10.127.0.0/24"
-  region        = "us-central1"
-  network       = google_compute_network.network.id
+  name    = "ssh-compute"
+  region  = "us-central1"
+  network = google_compute_network.network.id
+
+  ip_cidr_range    = "10.1.0.0/24"
+  stack_type       = "IPV4_IPV6"
+  ipv6_access_type = "INTERNAL"
 
   private_ip_google_access = true
 }

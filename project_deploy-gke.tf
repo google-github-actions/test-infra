@@ -28,6 +28,15 @@ module "deploy-gke" {
     "deployment",
   ], local.common_topics)
 
+  repo_variables = {
+    "IMAGE"          = "nginx:latest"
+    "APP_NAME"       = "deploy-gke-app"
+    "CLUSTER_REGION" = google_container_cluster.deploy_gke.location
+    "CLUSTER_NAME"   = google_container_cluster.deploy_gke.name
+    "NAMESPACE"      = "deploy-gke-ns"
+    "EXPOSE"         = "80"
+  }
+
   repo_collaborators = {
     teams = {
       "deploy-gke-maintainers" : "push",
@@ -39,10 +48,67 @@ module "deploy-gke" {
     google_project_service.services,
   ]
 }
+
+resource "google_compute_subnetwork" "deploy-gke" {
+  name    = "deploy-gke"
+  region  = "us-central1"
+  network = google_compute_network.network.id
+
+  ip_cidr_range    = "10.0.2.0/24"
+  stack_type       = "IPV4_IPV6"
+  ipv6_access_type = "INTERNAL"
+
+  private_ip_google_access = true
+
+  secondary_ip_range {
+    range_name    = "deploy-gke-pods"
+    ip_cidr_range = "192.168.20.0/24"
+  }
+
+  secondary_ip_range {
+    range_name    = "deploy-gke-services"
+    ip_cidr_range = "192.168.21.0/24"
+  }
+}
+
+resource "google_container_cluster" "deploy_gke" {
+  name     = "deploy-gke-cluster"
+  location = google_compute_subnetwork.deploy-gke.region
+  network  = google_compute_network.network.id
+
+  enable_autopilot         = true
+  enable_l4_ilb_subsetting = true
+  deletion_protection      = false
+
+  subnetwork = google_compute_subnetwork.deploy-gke.id
+
+  ip_allocation_policy {
+    stack_type                    = "IPV4_IPV6"
+    cluster_secondary_range_name  = google_compute_subnetwork.deploy-gke.secondary_ip_range[0].range_name
+    services_secondary_range_name = google_compute_subnetwork.deploy-gke.secondary_ip_range[1].range_name
+  }
+
+  release_channel {
+    channel = "REGULAR"
+  }
+
+  timeouts {
+    create = "15m"
+    update = "15m"
+  }
+
+  depends_on = [
+    google_project_service.services["container.googleapis.com"],
+  ]
+}
+
 # Grant the custom service account permissions to manage gke resources.
 resource "google_project_iam_member" "deploy-gke-roles" {
   for_each = toset([
     "roles/container.developer",
+
+    # For verifying deployments in the gke cluster
+    "roles/container.clusterViewer",
   ])
 
   project = data.google_project.project.project_id

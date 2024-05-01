@@ -113,8 +113,9 @@ resource "google_compute_network" "network" {
   name        = "github-actions-network"
   description = "Network for GitHub Actions infrastructure."
 
-  auto_create_subnetworks = false
-  routing_mode            = "GLOBAL"
+  auto_create_subnetworks  = false
+  enable_ula_internal_ipv6 = true
+  routing_mode             = "GLOBAL"
 
   depends_on = [
     google_project_service.services["compute.googleapis.com"],
