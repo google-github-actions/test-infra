@@ -115,3 +115,17 @@ resource "google_project_iam_member" "deploy-gke-roles" {
   role    = each.value
   member  = "serviceAccount:${module.deploy-gke.service_account_email}"
 }
+
+# Grant the WIF permissions to manage gke resources.
+resource "google_service_account_iam_member" "deploy-gke-wif" {
+  for_each = toset([
+    "roles/container.developer",
+
+    # For verifying deployments in the gke cluster
+    "roles/container.clusterViewer",
+  ])
+
+    service_account_id = module.deploy-gke.service_account_name
+    role    = each.value
+    member  = "principalSet://iam.googleapis.com/${module.deploy-gke.workload_identity_pool_name}/*"
+}
