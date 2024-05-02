@@ -85,6 +85,7 @@ resource "google_container_cluster" "get-gke-credentials-public" {
   enable_autopilot         = true
   enable_l4_ilb_subsetting = true
   deletion_protection      = false
+  initial_node_count       = 1
 
   network    = google_compute_network.network.id
   subnetwork = google_compute_subnetwork.get-gke-credentials-public.id
@@ -139,6 +140,7 @@ resource "google_container_cluster" "get-gke-credentials-private" {
   enable_autopilot         = true
   enable_l4_ilb_subsetting = true
   deletion_protection      = false
+  initial_node_count       = 1
 
   network    = google_compute_network.network.id
   subnetwork = google_compute_subnetwork.get-gke-credentials-private.id

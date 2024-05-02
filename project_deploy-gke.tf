@@ -31,8 +31,8 @@ module "deploy-gke" {
   repo_variables = {
     "IMAGE"          = "nginx:latest"
     "APP_NAME"       = "deploy-gke-app"
-    "CLUSTER_REGION" = google_container_cluster.deploy_gke.location
-    "CLUSTER_NAME"   = google_container_cluster.deploy_gke.name
+    "CLUSTER_REGION" = google_container_cluster.deploy-gke.location
+    "CLUSTER_NAME"   = google_container_cluster.deploy-gke.name
     "NAMESPACE"      = "deploy-gke-ns"
     "EXPOSE"         = "80"
   }
@@ -71,7 +71,7 @@ resource "google_compute_subnetwork" "deploy-gke" {
   }
 }
 
-resource "google_container_cluster" "deploy_gke" {
+resource "google_container_cluster" "deploy-gke" {
   name     = "deploy-gke-cluster"
   location = google_compute_subnetwork.deploy-gke.region
   network  = google_compute_network.network.id
@@ -79,6 +79,7 @@ resource "google_container_cluster" "deploy_gke" {
   enable_autopilot         = true
   enable_l4_ilb_subsetting = true
   deletion_protection      = false
+  initial_node_count       = 1
 
   subnetwork = google_compute_subnetwork.deploy-gke.id
 
@@ -102,8 +103,8 @@ resource "google_container_cluster" "deploy_gke" {
   ]
 }
 
-# Grant the custom service account permissions to manage gke resources.
-resource "google_project_iam_member" "deploy-gke-roles" {
+# Grant the WIF permissions to manage gke resources.
+resource "google_project_iam_member" "deploy-gke-direct-permissions" {
   for_each = toset([
     "roles/container.developer",
 
@@ -113,19 +114,5 @@ resource "google_project_iam_member" "deploy-gke-roles" {
 
   project = data.google_project.project.project_id
   role    = each.value
-  member  = "serviceAccount:${module.deploy-gke.service_account_email}"
-}
-
-# Grant the WIF permissions to manage gke resources.
-resource "google_service_account_iam_member" "deploy-gke-wif" {
-  for_each = toset([
-    "roles/container.developer",
-
-    # For verifying deployments in the gke cluster
-    "roles/container.clusterViewer",
-  ])
-
-    service_account_id = module.deploy-gke.service_account_name
-    role    = each.value
-    member  = "principalSet://iam.googleapis.com/${module.deploy-gke.workload_identity_pool_name}/*"
+  member  = "principalSet://iam.googleapis.com/${module.deploy-gke.workload_identity_pool_name}/*"
 }

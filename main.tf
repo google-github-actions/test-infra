@@ -40,6 +40,7 @@ resource "google_project_service" "services" {
     "compute.googleapis.com",
     "connectgateway.googleapis.com",
     "container.googleapis.com",
+    "containersecurity.googleapis.com",
     "gkehub.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
