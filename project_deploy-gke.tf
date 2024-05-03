@@ -71,6 +71,53 @@ resource "google_compute_subnetwork" "deploy-gke" {
   }
 }
 
+resource "google_compute_instance" "deploy-gke" {
+  name         = "deploy-gke"
+  machine_type = "e2-micro"
+  zone         = google_compute_subnetwork.deploy-gke.region
+
+  # tag for internal firewall policies to allow iap
+  tags = ["allow-iap"]
+
+  can_ip_forward            = true
+  allow_stopping_for_update = true
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.deploy-gke.id
+  }
+
+  service_account {
+    email  = google_service_account.deploy-gke.email
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata["deploy-gke"],
+    ]
+  }
+}
+
+resource "google_compute_firewall" "allow_gke_expose" {
+  name    = "allow-gke-expose"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["35.235.240.0/20"]
+
+  target_service_accounts = [google_service_account.deploy-gke.email]
+}
+
 resource "google_container_cluster" "deploy-gke" {
   name     = "deploy-gke-cluster"
   location = google_compute_subnetwork.deploy-gke.region
