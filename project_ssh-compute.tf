@@ -29,10 +29,10 @@ module "ssh-compute" {
   ], local.common_topics)
 
   repo_collaborators = {
-    teams = {}
-    users = {
-      "FrodoTheTrue" : "push",
+    teams = {
+      "ssh-compute-maintainers" : "push",
     }
+    users = {}
   }
 
   repo_secrets = {
