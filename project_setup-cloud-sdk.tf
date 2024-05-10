@@ -35,6 +35,7 @@ module "setup-cloud-sdk" {
   repo_collaborators = {
     teams = {}
     users = {
+      # Required for compile-versions to push to repo branch.
       "google-github-actions-bot" : "push"
     }
   }

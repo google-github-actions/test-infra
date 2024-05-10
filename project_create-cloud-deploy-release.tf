@@ -28,10 +28,10 @@ module "create-cloud-deploy-release" {
   ], local.common_topics)
 
   repo_collaborators = {
-    teams = {}
-    users = {
-      "henrybell" : "push",
+    teams = {
+      "create-cloud-deploy-release-maintainers" : "push",
     }
+    users = {}
   }
 
   depends_on = [

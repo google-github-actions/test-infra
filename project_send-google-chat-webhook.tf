@@ -1,4 +1,4 @@
-# Copyright 2022 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,25 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-module "run-vertexai-notebook" {
+module "send-google-chat-webhook" {
   source = "./modules/project"
 
   github_organization_name = data.github_organization.organization.orgname
   github_organization_id   = data.github_organization.organization.id
 
-  repo_name         = "run-vertexai-notebook"
-  repo_description  = "A GitHub Action for running a Google Cloud Vertex AI notebook."
-  repo_homepage_url = "https://cloud.google.com/vertex-ai"
+  repo_name         = "send-google-chat-webhook"
+  repo_description  = "A GitHub Action for sending a message to Google Chat via a webhook."
+  repo_homepage_url = "https://chat.google.com"
   repo_topics = concat([
-    "artificial-intelligence",
-    "machine-learning",
-    "ml-notebooks",
-    "vertex-ai",
-  ], local.common_topics)
+    "google-chat",
+    "chat",
+  ])
 
   repo_collaborators = {
     teams = {
-      "run-vertexai-notebook-maintainers" : "push",
+      "send-google-chat-webhook-maintainers" : "push",
     }
     users = {}
   }
