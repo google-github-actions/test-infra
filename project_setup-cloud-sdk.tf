@@ -26,12 +26,6 @@ module "setup-cloud-sdk" {
     "npm",
   ], local.common_topics)
 
-  repo_secrets = {
-    # jsonencode(jsondecode()) it to minify the JSON so that normal characters
-    # like ",{, and } are not obfuscated in output.
-    "SERVICE_ACCOUNT_KEY_JSON" : jsonencode(jsondecode(base64decode(google_service_account_key.setup-cloud-sdk-key.private_key)))
-  }
-
   repo_collaborators = {
     teams = {}
     users = {
@@ -43,10 +37,4 @@ module "setup-cloud-sdk" {
   depends_on = [
     google_project_service.services,
   ]
-}
-
-# The auth action needs an exported service account key to test the
-# authentication via SAKE.
-resource "google_service_account_key" "setup-cloud-sdk-key" {
-  service_account_id = module.setup-cloud-sdk.service_account_name
 }

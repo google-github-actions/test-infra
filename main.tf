@@ -41,6 +41,7 @@ resource "google_project_service" "services" {
     "connectgateway.googleapis.com",
     "container.googleapis.com",
     "containersecurity.googleapis.com",
+    "eventarc.googleapis.com",
     "gkehub.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
