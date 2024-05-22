@@ -38,33 +38,25 @@ module "deploy-cloud-functions" {
   ]
 }
 
-# Grant the custom runtime service account permissions.
+# Grant the runtime service account permissions to access secrets.
 resource "google_secret_manager_secret_iam_member" "deploy-cloud-functions-secret-accessor" {
   secret_id = google_secret_manager_secret.secret.id
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
 }
 
-# Grant the custom service account permissions to deploy.
-resource "google_project_iam_member" "deploy-cloud-functions-developer" {
-  project = data.google_project.project.project_id
-  role    = "roles/cloudfunctions.developer"
-  member  = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
-}
-
-# Grant the custom service account permissions to impersonate the Cloud
-# Functions runtime service account.
-resource "google_service_account_iam_member" "deploy-cloud-functions-runtime-account" {
-  service_account_id = data.google_app_engine_default_service_account.account.name
-  role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
-}
-
-# Grant the custom service account permissions to impersonate itself.
-resource "google_service_account_iam_member" "deploy-cloud-functions-self" {
+# Enable the Workload Identity to impersonate the runtime service account (required for deployment).
+resource "google_service_account_iam_member" "deploy-cloud-functions-wif-impersonate-runtime" {
   service_account_id = module.deploy-cloud-functions.service_account_name
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
+  member             = "principalSet://iam.googleapis.com/${module.deploy-cloud-functions.workload_identity_pool_name}/*"
+}
+
+# Enable the Workload Identity to deploy Cloud Functions.
+resource "google_project_iam_member" "deploy-cloud-functions-wif-cloud-functions-deployer" {
+  project = data.google_project.project.project_id
+  role    = "roles/cloudfunctions.developer"
+  member  = "principalSet://iam.googleapis.com/${module.deploy-cloud-functions.workload_identity_pool_name}/*"
 }
 
 resource "google_pubsub_topic" "deploy-cloud-functions" {
