@@ -45,6 +45,13 @@ resource "google_secret_manager_secret_iam_member" "deploy-cloud-functions-secre
   member    = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
 }
 
+# Grant the runtime service account permissions to receive eventarc events.
+resource "google_project_iam_member" "deploy-cloud-functions-eventarc-receiver" {
+  project = data.google_project.project.project_id
+  role    = "roles/eventarc.eventReceiver"
+  member  = "serviceAccount:${module.deploy-cloud-functions.service_account_email}"
+}
+
 # Enable the Workload Identity to impersonate the runtime service account (required for deployment).
 resource "google_service_account_iam_member" "deploy-cloud-functions-wif-impersonate-runtime" {
   service_account_id = module.deploy-cloud-functions.service_account_name
