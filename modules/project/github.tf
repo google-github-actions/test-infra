@@ -76,13 +76,15 @@ resource "github_branch_protection" "protection" {
 }
 
 resource "github_actions_secret" "secrets" {
-  for_each = merge(
-    // For backwards-compatability, these are stored as secrets and variables.
-    // We are in the process of migrating to variables, since these are not
-    // actually "secret" and marking them as secrets can make log output
-    // unusable.
-    var.repo_secrets,
-  )
+  for_each = var.repo_secrets
+
+  repository      = github_repository.repo.name
+  secret_name     = each.key
+  plaintext_value = each.value
+}
+
+resource "github_dependabot_secret" "secrets" {
+  for_each = var.repo_secrets
 
   repository      = github_repository.repo.name
   secret_name     = each.key
