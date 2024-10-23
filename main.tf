@@ -74,7 +74,8 @@ resource "google_app_engine_application" "application" {
 }
 
 data "google_secret_manager_secret_version" "bot" {
-  secret = "github-actions-bot-pat"
+  secret  = "github-actions-bot-pat"
+  version = "1"
 
   depends_on = [
     google_project_service.services["secretmanager.googleapis.com"],
