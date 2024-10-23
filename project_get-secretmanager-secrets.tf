@@ -30,6 +30,7 @@ module "get-secretmanager-secrets" {
   repo_variables = {
     "SECRET_NAME" : google_secret_manager_secret.secret.id
     "SECRET_VERSION_NAME" : google_secret_manager_secret_version.version.id
+    "REGIONAL_SECRET_NAME" : google_secret_manager_regional_secret.regional-secret.id
   }
 
   depends_on = [
@@ -39,6 +40,12 @@ module "get-secretmanager-secrets" {
 
 resource "google_secret_manager_secret_iam_member" "get-secretmanager-secrets-secret-accessor" {
   secret_id = google_secret_manager_secret.secret.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${module.get-secretmanager-secrets.service_account_email}"
+}
+
+resource "google_secret_manager_regional_secret_iam_member" "get-secretmanager-secrets-regional-secret-accessor" {
+  secret_id = google_secret_manager_regional_secret.regional-secret.id
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${module.get-secretmanager-secrets.service_account_email}"
 }

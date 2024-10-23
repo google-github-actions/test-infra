@@ -110,6 +110,20 @@ resource "google_secret_manager_secret_version" "version" {
   secret_data = "my super secret data"
 }
 
+resource "google_secret_manager_regional_secret" "regional-secret" {
+  secret_id = "test-regional-secret"
+  location  = "us-central1"
+
+  depends_on = [
+    google_project_service.services["secretmanager.googleapis.com"],
+  ]
+}
+
+resource "google_secret_manager_regional_secret_version" "regional-version" {
+  secret      = google_secret_manager_regional_secret.regional-secret.id
+  secret_data = "my regionally secret data"
+}
+
 # Create a dedicated network with egress NAT.
 resource "google_compute_network" "network" {
   name        = "github-actions-network"
