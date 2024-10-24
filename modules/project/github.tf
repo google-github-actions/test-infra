@@ -15,7 +15,7 @@
 locals {
   default_repo_collaborators = {
     users = {
-      "google-github-actions-bot" : "triage"
+      "google-github-actions-bot" : "push"
     }
 
     teams = {
