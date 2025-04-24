@@ -23,7 +23,7 @@ terraform {
     }
 
     google = {
-      version = "~> 6.8"
+      version = "~> 6.31"
     }
   }
 
