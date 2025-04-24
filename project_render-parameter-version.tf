@@ -27,7 +27,11 @@ module "render-parameter-version" {
     "config",
   ], local.common_topics)
 
-  repo_variables = {}
+  repo_variables = {
+    "PARAMETER_NAME" : google_parameter_manager_parameter.parameter.id
+    "PARAMETER_VERSION_NAME" : google_parameter_manager_parameter_version.parameter-version.id
+    "REGIONAL_PARAMETER_NAME" : google_parameter_manager_regional_parameter.regional-parameter.id
+  }
 
   repo_visibility = "private"
 
@@ -41,4 +45,17 @@ module "render-parameter-version" {
   depends_on = [
     google_project_service.services,
   ]
+}
+
+resource "google_secret_manager_secret_iam_member" "member" {
+  secret_id = google_secret_manager_secret.secret-for-parameter.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = google_parameter_manager_parameter.parameter.policy_member[0].iam_policy_uid_principal
+}
+
+resource "google_secret_manager_regional_secret_iam_member" "member" {
+  secret_id = google_secret_manager_regional_secret.regional-secret-for-parameter.secret_id
+  location  = google_secret_manager_regional_secret.regional-secret-for-parameter.location
+  role      = "roles/secretmanager.secretAccessor"
+  member    = google_parameter_manager_regional_parameter.regional-parameter.policy_member[0].iam_policy_uid_principal
 }

@@ -46,6 +46,7 @@ resource "google_project_service" "services" {
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "iap.googleapis.com",
+    "parametermanager.googleapis.com",
     "pubsub.googleapis.com",
     "run.googleapis.com",
     "secretmanager.googleapis.com",
@@ -156,4 +157,55 @@ resource "google_compute_router_nat" "nat" {
     enable = true
     filter = "ERRORS_ONLY"
   }
+}
+
+# Create a parameter for render-parameter-version and a secret for render_secret in the parameter.
+resource "google_parameter_manager_parameter" "parameter" {
+  parameter_id = "tf-parameter"
+  format       = "YAML"
+}
+
+resource "google_secret_manager_secret" "secret-for-parameter" {
+  secret_id = "tf-secret-for-parameter"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "secret-version-for-parameter" {
+  secret      = google_secret_manager_secret.secret-for-parameter.id
+  secret_data = "parameter-version-data"
+}
+
+resource "google_parameter_manager_parameter_version" "parameter-version" {
+  parameter            = google_parameter_manager_parameter.parameter.id
+  parameter_version_id = "tf-parameter-version"
+  parameter_data = yamlencode({
+    "tempsecret" : "__REF__(//secretmanager.googleapis.com/${google_secret_manager_secret_version.secret-version-for-parameter.name})"
+  })
+}
+
+# Create a regional parameter for render-parameter-version and a regional secret for render_secret in the parameter.
+resource "google_parameter_manager_regional_parameter" "regional-parameter" {
+  parameter_id = "tf-regional-parameter"
+  location     = "us-central1"
+  format       = "YAML"
+}
+
+resource "google_secret_manager_regional_secret" "regional-secret-for-parameter" {
+  secret_id = "tf-regional-secret-for-parameter"
+  location  = "us-central1"
+}
+
+resource "google_secret_manager_regional_secret_version" "regional-secret-version-for-parameter" {
+  secret      = google_secret_manager_regional_secret.regional-secret-for-parameter.id
+  secret_data = "regional-parameter-version-data"
+}
+
+resource "google_parameter_manager_regional_parameter_version" "regional-parameter-version" {
+  parameter            = google_parameter_manager_regional_parameter.regional-parameter.id
+  parameter_version_id = "tf-regional-parameter-version"
+  parameter_data = yamlencode({
+    "tempsecret" : "__REF__(//secretmanager.googleapis.com/${google_secret_manager_regional_secret_version.regional-secret-version-for-parameter.name})"
+  })
 }
