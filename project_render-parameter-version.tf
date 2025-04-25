@@ -39,7 +39,11 @@ module "render-parameter-version" {
     teams = {
       "render-parameter-version-maintainers" : "push",
     }
-    users = {}
+    users = {
+      "durgesh-ninave-crest" : "push",
+      "jainildesai-crest" : "push",
+      "suvidha-malaviya" : "push",
+    }
   }
 
   depends_on = [
