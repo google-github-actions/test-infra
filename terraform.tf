@@ -14,15 +14,16 @@
 
 # If you change these values, also update the modules/project terraform.tf!
 terraform {
-  required_version = ">= 1.0.0"
+  required_version = ">= 1.11"
 
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 6.2"
+      version = "~> 6.6"
     }
 
     google = {
+      source  = "hashicorp/google"
       version = "~> 6.31"
     }
   }
