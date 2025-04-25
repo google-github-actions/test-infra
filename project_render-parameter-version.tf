@@ -63,3 +63,14 @@ resource "google_secret_manager_regional_secret_iam_member" "member" {
   role      = "roles/secretmanager.secretAccessor"
   member    = google_parameter_manager_regional_parameter.regional-parameter.policy_member[0].iam_policy_uid_principal
 }
+
+resource "google_project_iam_member" "render-parameter-version-permissions" {
+  for_each = toset([
+    "roles/parametermanager.parameterAccessor",
+    "roles/parametermanager.parameterViewer",
+  ])
+
+  project = data.google_project.project.project_id
+  role    = each.value
+  member  = "serviceAccount:${module.render-parameter-version.service_account_email}"
+}
