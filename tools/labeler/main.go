@@ -21,7 +21,7 @@ type Label struct {
 	Color string
 }
 
-// DefaultLabels is the authorative list of labels.
+// DefaultLabels is the authoritative list of labels.
 var DefaultLabels = []*Label{
 	{"bug", "Something isn't working", "c5221f"},
 	{"documentation", "Improvements or additions to documentation", "1967d2"},
@@ -30,8 +30,8 @@ var DefaultLabels = []*Label{
 	{"help wanted", "Extra attention is needed", "feefc3"},
 }
 
-// IgnoredRepoNames is a list of repository names to skip
-// NOTE: Always ignore release-please-action as they have custom label mapping
+// IgnoredRepoNames is a list of repository names to skip.
+// NOTE: Always ignore release-please-action as they have custom label mapping.
 var IgnoredRepoNames = map[string]struct{}{
 	"release-please-action": {},
 }
