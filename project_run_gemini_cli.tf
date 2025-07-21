@@ -16,7 +16,7 @@ module "run-gemini-cli" {
   source = "./modules/project"
 
   // TODO: make public before release
-  repo_visibility = "private"
+  repo_visibility = "internal"
 
   github_organization_name = data.github_organization.organization.orgname
   github_organization_id   = data.github_organization.organization.id
